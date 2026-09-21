@@ -14,7 +14,7 @@
 .currentPlayer{margin:0 0 14px;padding:15px;border-radius:18px;background:#fff;color:#050505;text-align:center;font-size:22px;font-weight:1000}
 .roundResult{margin:12px 0;padding:14px;border-radius:16px;text-align:center;font-size:20px;font-weight:1000}
 .roundResult.ok{background:#2e7d32}.roundResult.no{background:#c62828}.festActions{margin-bottom:12px}.reveal{scroll-margin-top:12px}
-</style><script src="https://open.spotify.com/embed/iframe-api/v1" async></script></head><body><main class="app"><header><div class="logo">HIT ROCK</div><div class="sub">scan • listen • guess</div></header><section class="panel"><div id="modeView" class="modeview"><h2>Escolhe o modo</h2><p>Como queres jogar?</p><div class="modegrid"><button class="primary modebtn" data-mode="normal">🎵 NORMAL<small>Modo clássico HIT ROCK</small></button><button class="secondary modebtn" data-mode="roulette">🎡 ROLETA<small>Década · ±4 · ±2 · Banda/Solo · Ano exato</small></button><button class="secondary modebtn" data-mode="expert">🔥 EXPERT<small>Ano · Década · Artista · Música · ±3</small></button><button class="secondary modebtn" data-mode="festival">🎪 FESTIVAL<small>Ganha fãs · sobe de palco · torna-te Headliner</small></button></div><div id="festivalSetup" class="festivalSetup hidden"><h3>🎪 Criar Festival</h3><p>2 a 8 bandas/jogadores</p><div id="festivalNames"></div><div class="buttons"><button class="primary" id="festivalStart">Começar Festival</button></div></div></div><div id="scanView" class="hidden"><div id="reader"><video id="video" playsinline muted></video><div class="frame"></div></div><div class="status" id="status">Aponta a câmara ao QR HIT ROCK</div><div class="buttons"><button class="primary" id="start">Ligar câmara</button></div><div class="manual"><input id="manual" placeholder="HR0001 ou 0001"><button class="secondary" id="go">OK</button></div></div><div id="gameView" class="hidden"><div class="result"><div class="cardno" id="cardno"></div><div id="challenge" class="challenge hidden"><span id="wheel" class="wheel">🎡</span><div class="label">DESAFIO</div><div class="value" id="challengeText"></div></div><div id="festivalBoard" class="festivalBoard hidden"><div id="currentPlayer" class="currentPlayer"></div><div class="festTop" id="festTurn"></div><div class="festStage" id="festStage"></div><div class="festEvent" id="festEvent"></div><div class="festScores" id="festScores"></div><div id="festActions" class="festActions hidden"><button class="success" id="festHit">✅ ACERTOU</button><button class="fail" id="festMiss">❌ FALHOU</button></div></div><div id="flipView" class="flipmsg"><span class="phone">📱</span><h2>Vira o telemóvel para baixo</h2><p>Mantém o ecrã para cima enquanto lês. Depois vira o iPhone completamente, com o ecrã encostado à mesa.</p><div class="turnprogress"><i id="turnbar"></i></div><div id="motionNote" class="hint"></div><button class="secondary" id="playFallback" type="button">▶️ iPhone bloqueou o automático? Toca aqui</button></div><div id="playingView" class="hidden"><div class="secret">🎸 A TOCAR</div><p>Adivinha antes de revelar.</p><div class="spotifybox" id="spotifybox"></div><div class="buttons"><button class="secondary" id="revealBtn">Revelar resposta</button></div><div class="reveal hidden" id="answer"><h2 id="title"></h2><div class="year" id="year"></div><div class="artist" id="artist"></div></div><div class="buttons"><button class="danger" id="next">Próxima carta</button></div></div></div></div></section><div class="hint">A câmara requer HTTPS ou localhost. Os QR devem conter apenas o ID HIT ROCK, por exemplo <b>HR0001</b>, ou uma URL terminada nesse ID.</div></main><div class="signature">by Videira · v1.16</div><script>
+</style><script src="https://open.spotify.com/embed/iframe-api/v1" async></script></head><body><main class="app"><header><div class="logo">HIT ROCK</div><div class="sub">scan • listen • guess</div></header><section class="panel"><div id="modeView" class="modeview"><h2>Escolhe o modo</h2><p>Como queres jogar?</p><div class="modegrid"><button class="primary modebtn" data-mode="normal">🎵 NORMAL<small>Modo clássico HIT ROCK</small></button><button class="secondary modebtn" data-mode="roulette">🎡 ROLETA<small>Década · ±4 · ±2 · Banda/Solo · Ano exato</small></button><button class="secondary modebtn" data-mode="expert">🔥 EXPERT<small>Ano · Década · Artista · Música · ±3</small></button><button class="secondary modebtn" data-mode="festival">🎪 FESTIVAL<small>Ganha fãs · sobe de palco · torna-te Headliner</small></button></div><div id="festivalSetup" class="festivalSetup hidden"><h3>🎪 Criar Festival</h3><p>2 a 8 bandas/jogadores</p><div id="festivalNames"></div><div class="buttons"><button class="primary" id="festivalStart">Começar Festival</button></div></div></div><div id="scanView" class="hidden"><div id="reader"><video id="video" playsinline muted></video><div class="frame"></div></div><div class="status" id="status">Aponta a câmara ao QR HIT ROCK</div><div class="buttons"><button class="primary" id="start">Ligar câmara</button></div><div class="manual"><input id="manual" placeholder="HR0001 ou 0001"><button class="secondary" id="go">OK</button></div></div><div id="gameView" class="hidden"><div class="result"><div class="cardno" id="cardno"></div><div id="challenge" class="challenge hidden"><span id="wheel" class="wheel">🎡</span><div class="label">DESAFIO</div><div class="value" id="challengeText"></div></div><div id="festivalBoard" class="festivalBoard hidden"><div id="currentPlayer" class="currentPlayer"></div><div class="festTop" id="festTurn"></div><div class="festStage" id="festStage"></div><div class="festEvent" id="festEvent"></div><div class="festScores" id="festScores"></div><div id="festActions" class="festActions hidden"><button class="success" id="festHit">✅ ACERTOU</button><button class="fail" id="festMiss">❌ FALHOU</button></div></div><div id="flipView" class="flipmsg"><span class="phone">📱</span><h2>Vira o telemóvel para baixo</h2><p>Mantém o ecrã para cima enquanto lês. Depois vira o iPhone completamente, com o ecrã encostado à mesa.</p><div class="turnprogress"><i id="turnbar"></i></div><div id="motionNote" class="hint"></div><button class="secondary" id="playFallback" type="button">▶️ iPhone bloqueou o automático? Toca aqui</button></div><div id="playingView" class="hidden"><div class="secret">🎸 A TOCAR</div><p>Adivinha antes de revelar.</p><div class="spotifybox" id="spotifybox"></div><div class="buttons"><button class="secondary" id="revealBtn">Revelar resposta</button></div><div class="reveal hidden" id="answer"><h2 id="title"></h2><div class="year" id="year"></div><div class="artist" id="artist"></div></div><div class="buttons"><button class="danger" id="next">Próxima carta</button></div></div></div></div></section><div class="hint">A câmara requer HTTPS ou localhost. Os QR devem conter apenas o ID HIT ROCK, por exemplo <b>HR0001</b>, ou uma URL terminada nesse ID.</div></main><div class="signature">by Videira · v1.17</div><script>
 let songs=[],map=new Map(),stream=null,scanning=false,detector=null,last='',current=null,gameMode='normal',currentChallenge='',motionReady=false,faceDownSince=0,latestGravityZ=null,scanFaceSign=null,spotifyController=null,spotifyApiReady=false,pendingSpotifyId='',festivalPlayers=[],festivalTurn=0,festivalRound=1,festivalEvent=null,festivalScored=false,festivalHeadliner=false,flipShownAt=0;
 let hitrockGameInProgress=false;
 let hitrockLeaving=false;
@@ -51,7 +51,33 @@ window.onSpotifyIframeApiReady=(IFrameAPI)=>{spotifyApiReady=true;window._spotif
 fetch('songs.json').then(r=>r.json()).then(d=>{songs=d;d.forEach(s=>{map.set(s.id,s);map.set(String(s.n),s);map.set(String(s.n).padStart(4,'0'),s)});});
 function parse(raw){raw=(raw||'').trim();let m=raw.match(/HR[-_ ]?(\d{1,4})/i)||raw.match(/(?:^|\/)(\d{1,4})(?:[/?#]|$)/);if(!m&&/^\d{1,4}$/.test(raw))m=[raw,raw];if(!m)return null;let n=String(parseInt(m[1],10));return map.get(n)||map.get(n.padStart(4,'0'))||map.get('HR'+n.padStart(4,'0'));}
 function spotifyId(s){return s.spotifyId||((s.spotifyUrl||'').match(/track\/([A-Za-z0-9]+)/)||[])[1]||''}
-function prepareSpotify(id){pendingSpotifyId=id;if(!id)return;let box=$('spotifybox');box.innerHTML='';if(spotifyApiReady&&window._spotifyIFrameAPI){let el=document.createElement('div');box.appendChild(el);window._spotifyIFrameAPI.createController(el,{uri:'spotify:track:'+id,width:'100%',height:152,theme:'dark'},c=>{spotifyController=c;});}else{box.innerHTML='<iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="eager" src="https://open.spotify.com/embed/track/'+id+'?utm_source=generator&theme=0"></iframe>';}}
+function prepareSpotify(id){
+  pendingSpotifyId=id;
+  spotifyController=null;
+  let box=$('spotifybox');
+  box.innerHTML='';
+  if(!id)return;
+  if(spotifyApiReady&&window._spotifyIFrameAPI){
+    let el=document.createElement('div');
+    el.id='spotifyControllerMount';
+    box.appendChild(el);
+    window._spotifyIFrameAPI.createController(el,{
+      uri:'spotify:track:'+id,
+      width:'100%',
+      height:152,
+      theme:'dark'
+    },c=>{
+      spotifyController=c;
+      // Se o telefone já foi virado enquanto o controller carregava,
+      // iniciar assim que o Spotify ficar pronto.
+      if(current&&!$('playingView').classList.contains('hidden')){
+        try{if(c.play)c.play();else if(c.togglePlay)c.togglePlay()}catch(e){}
+      }
+    });
+  }else{
+    box.innerHTML='<iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="eager" src="https://open.spotify.com/embed/track/'+id+'?utm_source=generator&theme=0"></iframe>';
+  }
+}
 const challenges={roulette:['DÉCADA','± 4 ANOS','± 2 ANOS','BANDA OU SOLO','ANO EXATO'],expert:['ANO EXATO','DÉCADA','NOME DA BANDA OU ARTISTA','NOME DA MÚSICA','± 3 ANOS']};const challengeColorsV7=['blue','red','yellow','green','purple'];let wheelTimerV7=null;function paintChallengeV7(i){let c=$('challenge');challengeColorsV7.forEach(x=>c.classList.remove(x));c.classList.add(challengeColorsV7[i]);$('challengeText').textContent=challenges[gameMode][i]}function pickChallenge(){if(gameMode==='festival'){festivalChallenge();$('challenge').classList.remove('hidden');return}if(gameMode==='normal'){$('challenge').classList.add('hidden');return}if(wheelTimerV7)clearTimeout(wheelTimerV7);let a=challenges[gameMode],winner=Math.floor(Math.random()*a.length),start=performance.now(),i=0;currentChallenge=a[winner];$('challenge').classList.remove('hidden');let w=$('wheel');w.classList.remove('spinning');void w.offsetWidth;w.classList.add('spinning');function suspense(){let elapsed=performance.now()-start;if(elapsed>=5000){paintChallengeV7(winner);return}paintChallengeV7(i%5);i++;wheelTimerV7=setTimeout(suspense,90+Math.pow(elapsed/5000,3)*520)}suspense()}const festivalEvents=[['🔥 FÃS A DOBRAR','double'],['⚡ ROUBA 3.000 FÃS','steal'],['🎤 ARTISTA OBRIGATÓRIO','artist'],['💀 TUDO OU NADA','allin'],['🤝 DUETO','duet'],['🎸 ENCORE','encore']];
 function festivalSetup(){let box=$('festivalNames');box.innerHTML='';for(let i=0;i<8;i++){let inp=document.createElement('input');inp.placeholder=i<2?'Nome da banda/jogador '+(i+1):'Opcional '+(i+1);inp.className='festName';box.appendChild(inp)}$('festivalSetup').classList.remove('hidden')}
 function startFestival(){let names=[...document.querySelectorAll('.festName')].map(x=>x.value.trim()).filter(Boolean);if(names.length<2){alert('Indica pelo menos 2 bandas/jogadores.');return}setGameInProgress(true);festivalPlayers=names.map(n=>({name:n,fans:0,streak:0,vip:0}));festivalTurn=0;festivalRound=1;$('festivalSetup').classList.add('hidden');$('modeView').classList.add('hidden');$('scanView').classList.remove('hidden');$('status').textContent='Festival — '+festivalPlayers[0].name+' digitaliza uma carta'}
@@ -65,7 +91,7 @@ async function enableMotion(){try{if(typeof DeviceMotionEvent!=='undefined'&&typ
 function faceDownCheck(z,x,y){
   if(!current||$('flipView').classList.contains('hidden'))return;
   if(performance.now()-flipShownAt<1000)return;
-  let flat=Math.abs(z)>6.5&&Math.abs(x)<6.2&&Math.abs(y)<6.2;
+  let flat=Math.abs(z)>6.0&&Math.abs(x)<6.8&&Math.abs(y)<6.8;
   if(scanFaceSign==null&&flat){scanFaceSign=Math.sign(z);faceDownSince=0;return}
   let inverted=scanFaceSign!=null&&Math.sign(z)===-scanFaceSign;
   if(flat&&inverted){
@@ -101,21 +127,35 @@ function beginPlayback(){
   $('flipView').classList.add('hidden');
   $('playingView').classList.remove('hidden');
   if(gameMode==='festival')renderFestival();
+
   let id=spotifyId(current);
   let box=$('spotifybox');
-  if(id){
-    box.innerHTML='<iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="eager" src="https://open.spotify.com/embed/track/'+id+'?utm_source=generator&theme=0&autoplay=1"></iframe>';
-  }else{
+
+  if(!id){
     box.innerHTML='<div class="hint">⚠️ Esta carta não tem um Spotify ID válido.</div>';
+    return;
   }
+
+  // IMPORTANTE: não recriar o iframe aqui. O controller Spotify preparado
+  // quando a carta foi lida tem de continuar ligado ao mesmo elemento.
   try{
-    if(spotifyController&&spotifyController.play){
+    if(spotifyController&&typeof spotifyController.play==='function'){
       let r=spotifyController.play();
-      if(r&&r.catch)r.catch(()=>{});
-    }else if(spotifyController&&spotifyController.togglePlay){
+      if(r&&typeof r.catch==='function')r.catch(()=>showSpotifyFallback(id));
+    }else if(spotifyController&&typeof spotifyController.togglePlay==='function'){
       spotifyController.togglePlay();
+    }else{
+      showSpotifyFallback(id);
     }
-  }catch(e){}
+  }catch(e){
+    showSpotifyFallback(id);
+  }
+}
+function showSpotifyFallback(id){
+  let box=$('spotifybox');
+  if(!box.querySelector('iframe')){
+    box.innerHTML='<iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="eager" src="https://open.spotify.com/embed/track/'+id+'?utm_source=generator&theme=0&autoplay=1"></iframe>';
+  }
 }
 async function start(){try{await enableMotion();if(!('BarcodeDetector'in window)){$('status').textContent='Este browser não suporta leitura automática. Usa o campo de código abaixo.';return}detector=new BarcodeDetector({formats:['qr_code']});stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}}});$('video').srcObject=stream;await $('video').play();scanning=true;$('start').classList.add('hidden');$('status').textContent='À procura do QR…';tick()}catch(e){$('status').textContent='Não foi possível usar a câmara. Podes introduzir o código manualmente.'}}
 async function tick(){if(!scanning)return;try{let codes=await detector.detect($('video'));if(codes.length&&codes[0].rawValue!==last){last=codes[0].rawValue;load(last);return}}catch(e){}requestAnimationFrame(tick)}

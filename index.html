@@ -22,30 +22,30 @@
 .roundResult.ok{background:#2e7d32}.roundResult.no{background:#c62828}.festActions{margin-bottom:12px}.reveal{scroll-margin-top:12px}
 </style><script src="https://open.spotify.com/embed/iframe-api/v1" async>
 if($('festivalStandingsBtn')) $('festivalStandingsBtn').onclick=showFestivalStandings;
+if($('festivalStandings')) $('festivalStandings').onclick=e=>e.stopPropagation();
+document.addEventListener('click',e=>{
+  const pop=$('festivalStandings'),btn=$('festivalStandingsBtn');
+  if(pop&&!pop.classList.contains('hidden')&&!pop.contains(e.target)&&e.target!==btn)pop.classList.add('hidden');
+});
 document.addEventListener('click',()=>setTimeout(updateFestivalStandingsButton,0));
 setTimeout(updateFestivalStandingsButton,0);
-if($('closeFestivalStandings')) $('closeFestivalStandings').onclick=()=>$('festivalStandings').classList.add('hidden');
-
 </script></head><body><main class="app"><header><div class="logo">HIT ROCK</div><div class="sub">scan • listen • guess</div></header><section class="panel"><div id="modeView" class="modeview"><h2>Escolhe o modo</h2><p>Como queres jogar?</p><div class="modegrid"><button class="secondary modebtn" data-mode="normal">🎵 NORMAL<small>Modo clássico HIT ROCK</small></button><button class="secondary modebtn" data-mode="roulette">🎡 ROLETA<small>Década · ±4 · ±2 · Banda/Solo · Ano exato</small></button><button class="secondary modebtn" data-mode="expert">🔥 EXPERT<small>Ano · Década · Artista · Música · ±3</small></button><button class="secondary modebtn" data-mode="festival">🎪 FESTIVAL<small>Ganha fãs · sobe de palco · torna-te Headliner</small></button></div><div id="festivalSetup" class="festivalSetup hidden"><h3>🎪 Criar Festival</h3><p>2 a 8 bandas/jogadores</p><div id="festivalNames"></div><div class="buttons"><button class="primary" id="festivalStart">Começar Festival</button></div></div></div><div id="festivalIntro" class="festivalIntro hidden">
 <div class="who">AGORA JOGA</div>
 <div class="player" id="festivalIntroPlayer"></div>
 <div class="stage" id="festivalIntroStage"></div>
 <div class="objective"><span>OBJETIVO DESTA FASE</span><strong id="festivalIntroObjective"></strong><div id="festivalIntroHelp" class="hint"></div></div>
 <div class="buttons"><button class="primary" id="festivalReady">Estou pronto — ler carta</button></div>
-</div><div id="scanView" class="hidden"><div id="reader"><video id="video" playsinline muted></video><div class="frame"></div></div><div class="status" id="status">Aponta a câmara ao QR HIT ROCK</div><div class="buttons"><button class="primary" id="start">Ligar câmara</button></div><div class="manual"><input id="manual" placeholder="HR0001 ou 0001"><button class="secondary" id="go">OK</button></div></div><div id="gameView" class="hidden"><div class="result"><div class="cardno" id="cardno"></div><div id="challenge" class="challenge hidden"><span id="wheel" class="wheel">🎡</span><div class="label">DESAFIO</div><div class="value" id="challengeText"></div></div><div id="festivalBoard" class="festivalBoard hidden"><div id="currentPlayer" class="currentPlayer"></div><div class="festTop" id="festTurn"></div><div class="festStage" id="festStage"></div><div class="festEvent" id="festEvent"></div><div class="festScores" id="festScores"></div><div id="festActions" class="festActions hidden"><button class="success" id="festHit">✅ ACERTOU</button><button class="fail" id="festMiss">❌ FALHOU</button></div></div><div id="flipView" class="flipmsg"><span class="phone">📱</span><h2>Vira o telemóvel para baixo</h2><p>Mantém o ecrã para cima enquanto lês. Depois vira o telemóvel completamente, com o ecrã virado para baixo.</p><div class="turnprogress"><i id="turnbar"></i></div><div id="motionNote" class="hint"></div></div><div id="playingView" class="hidden"><div class="secret">🎸 A TOCAR</div><p>Adivinha antes de revelar.</p><div class="spotifybox" id="spotifybox"></div><div class="buttons"><button class="secondary" id="revealBtn">Revelar resposta</button></div><div class="reveal hidden" id="answer"><h2 id="title"></h2><div class="year" id="year"></div><div class="artist" id="artist"></div></div><div class="buttons"><button class="danger" id="next">Próxima carta</button></div></div></div></div></section></main><div class="signature">by Videira · v1.33</div>
+</div><div id="scanView" class="hidden"><div id="reader"><video id="video" playsinline muted></video><div class="frame"></div></div><div class="status" id="status">Aponta a câmara ao QR HIT ROCK</div><div class="buttons"><button class="primary" id="start">Ligar câmara</button></div><div class="manual"><input id="manual" placeholder="HR0001 ou 0001"><button class="secondary" id="go">OK</button></div></div><div id="gameView" class="hidden"><div class="result"><div class="cardno" id="cardno"></div><div id="challenge" class="challenge hidden"><span id="wheel" class="wheel">🎡</span><div class="label">DESAFIO</div><div class="value" id="challengeText"></div></div><div id="festivalBoard" class="festivalBoard hidden"><div id="currentPlayer" class="currentPlayer"></div><div class="festTop" id="festTurn"></div><div class="festStage" id="festStage"></div><div class="festEvent" id="festEvent"></div><div class="festScores" id="festScores"></div><div id="festActions" class="festActions hidden"><button class="success" id="festHit">✅ ACERTOU</button><button class="fail" id="festMiss">❌ FALHOU</button></div></div><div id="flipView" class="flipmsg"><span class="phone">📱</span><h2>Vira o telemóvel para baixo</h2><p>Mantém o ecrã para cima enquanto lês. Depois vira o telemóvel completamente, com o ecrã virado para baixo.</p><div class="turnprogress"><i id="turnbar"></i></div><div id="motionNote" class="hint"></div></div><div id="playingView" class="hidden"><div class="secret">🎸 A TOCAR</div><p>Adivinha antes de revelar.</p><div class="spotifybox" id="spotifybox"></div><div class="buttons"><button class="secondary" id="revealBtn">Revelar resposta</button></div><div class="reveal hidden" id="answer"><h2 id="title"></h2><div class="year" id="year"></div><div class="artist" id="artist"></div></div><div class="buttons"><button class="danger" id="next">Próxima carta</button></div></div></div></div></section></main><div class="signature">by Videira · v1.35</div>
 
-<button id="festivalStandingsBtn" class="hidden" aria-label="Consultar classificação do Festival"
- style="position:fixed;right:12px;bottom:12px;z-index:9000;width:auto;min-width:210px;max-width:72vw;padding:10px 13px;border-radius:16px;box-shadow:0 5px 18px rgba(0,0,0,.35);text-align:left">
- <strong>🏆 CLASSIFICAÇÃO</strong>
- <div id="festivalStandingsSummary" style="margin-top:5px;font-size:.86em;line-height:1.35"></div>
+<button id="festivalStandingsBtn" class="hidden" aria-label="Abrir classificação"
+ style="position:fixed;top:14px;right:14px;z-index:9001;width:48px;height:48px;min-width:48px;padding:0;border-radius:50%;font-size:24px;line-height:48px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.35)">
+🏆
 </button>
 
-<div id="festivalStandings" class="screen hidden" style="position:fixed;inset:0;z-index:9999;overflow:auto;background:var(--bg,#111);padding:22px">
-  <div class="card" style="max-width:520px;margin:20px auto">
-    <h2>🏆 Classificação do Festival</h2>
-    <div id="festivalStandingsList"></div>
-    <button id="closeFestivalStandings" class="primary" style="margin-top:16px">Voltar ao jogo</button>
-  </div>
+<div id="festivalStandings" class="hidden"
+ style="position:fixed;top:70px;right:14px;z-index:9000;width:min(330px,calc(100vw - 28px));background:#202020;border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.55)">
+  <div style="font-weight:900;font-size:1.05rem;margin-bottom:10px">🏆 CLASSIFICAÇÃO</div>
+  <div id="festivalStandingsList"></div>
 </div>
 
 <script>
@@ -116,39 +116,30 @@ const challenges={roulette:['DÉCADA','± 4 ANOS','± 2 ANOS','BANDA OU SOLO','A
 function festivalSetup(){let box=$('festivalNames');box.innerHTML='';for(let i=0;i<8;i++){let inp=document.createElement('input');inp.placeholder=i<2?'Nome da banda/jogador '+(i+1):'Opcional '+(i+1);inp.className='festName';box.appendChild(inp)}$('festivalSetup').classList.remove('hidden')}
 
 function updateFestivalStandingsButton(){
-  const b=$('festivalStandingsBtn'),s=$('festivalStandingsSummary');
-  if(!b||!s)return;
+  const b=$('festivalStandingsBtn');
+  if(!b)return;
   if(gameMode!=='festival'||!festivalPlayers||!festivalPlayers.length){
     b.classList.add('hidden');
+    if($('festivalStandings'))$('festivalStandings').classList.add('hidden');
     return;
   }
   b.classList.remove('hidden');
-  const ordered=festivalPlayers.map((p,i)=>({
-    name:p.name||('Jogador '+(i+1)),
-    fans:Number(p.fans)||0,
-    original:i
-  })).sort((a,b)=>b.fans-a.fans);
-  const medals=['🥇','🥈','🥉'];
-  s.innerHTML=ordered.map((p,i)=>
-    '<div style="white-space:nowrap">'+
-    (medals[i]||((i+1)+'.'))+' '+escapeHtmlFestival(p.name)+
-    ' — <strong>'+p.fans.toLocaleString('pt-PT')+'</strong> 👥'+
-    '</div>'
-  ).join('');
 }
-function showFestivalStandings(){
+function showFestivalStandings(e){
+  if(e)e.stopPropagation();
   if(!festivalPlayers||!festivalPlayers.length)return;
-  updateFestivalStandingsButton();
+  const pop=$('festivalStandings');
+  const opening=pop.classList.contains('hidden');
+  if(!opening){pop.classList.add('hidden');return;}
   const ordered=festivalPlayers.map((p,i)=>({name:p.name||('Jogador '+(i+1)),fans:Number(p.fans)||0,original:i}))
     .sort((a,b)=>b.fans-a.fans);
   const medals=['🥇','🥈','🥉'];
-  $('festivalStandingsList').innerHTML=ordered.map((p,i)=>{
-    const current=p.original===festivalTurn?' <strong>← a jogar</strong>':'';
-    return '<div style="display:flex;justify-content:space-between;gap:12px;padding:12px 4px;border-bottom:1px solid rgba(255,255,255,.15)">'+
-      '<span>'+(medals[i]||((i+1)+'.'))+' '+escapeHtmlFestival(p.name)+current+'</span>'+
-      '<strong>'+p.fans.toLocaleString('pt-PT')+' fãs</strong></div>';
-  }).join('');
-  $('festivalStandings').classList.remove('hidden');
+  $('festivalStandingsList').innerHTML=ordered.map((p,i)=>
+    '<div style="display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.10)">'+
+    '<span>'+(medals[i]||((i+1)+'.'))+' '+escapeHtmlFestival(p.name)+'</span>'+
+    '<strong>'+p.fans.toLocaleString('pt-PT')+' 👥</strong></div>'
+  ).join('');
+  pop.classList.remove('hidden');
 }
 function escapeHtmlFestival(s){
   return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));

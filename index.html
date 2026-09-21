@@ -26,10 +26,16 @@
 <div class="stage" id="festivalIntroStage"></div>
 <div class="objective"><span>OBJETIVO DESTA FASE</span><strong id="festivalIntroObjective"></strong><div id="festivalIntroHelp" class="hint"></div></div>
 <div class="buttons"><button class="primary" id="festivalReady">Estou pronto — ler carta</button></div>
-</div><div id="scanView" class="hidden"><div id="reader"><video id="video" playsinline muted></video><div class="frame"></div></div><div class="status" id="status">Aponta a câmara ao QR HIT ROCK</div><div class="buttons"><button class="primary" id="start">Ligar câmara</button></div><div class="manual"><input id="manual" placeholder="HR0001 ou 0001"><button class="secondary" id="go">OK</button></div></div><div id="gameView" class="hidden"><div class="result"><div class="cardno" id="cardno"></div><div id="challenge" class="challenge hidden"><span id="wheel" class="wheel">🎡</span><div class="label">DESAFIO</div><div class="value" id="challengeText"></div></div><div id="festivalBoard" class="festivalBoard hidden"><div id="currentPlayer" class="currentPlayer"></div><div class="festTop" id="festTurn"></div><div class="festStage" id="festStage"></div><div class="festEvent" id="festEvent"></div><div class="festScores" id="festScores" style="display:none!important"></div><div id="festActions" class="festActions hidden"><button class="success" id="festHit">✅ ACERTOU</button><button class="fail" id="festMiss">❌ FALHOU</button></div></div><div id="flipView" class="flipmsg"><span class="phone">📱</span><h2>Vira o telemóvel para baixo</h2><p>Mantém o ecrã para cima enquanto lês. Depois vira o telemóvel completamente, com o ecrã virado para baixo.</p><div class="turnprogress"><i id="turnbar"></i></div><div id="motionNote" class="hint"></div></div><div id="playingView" class="hidden"><div class="secret">🎸 A TOCAR</div><p>Adivinha antes de revelar.</p><div class="spotifybox" id="spotifybox"></div><div class="buttons"><button class="secondary" id="revealBtn">Revelar resposta</button></div><div class="reveal hidden" id="answer"><h2 id="title"></h2><div class="year" id="year"></div><div class="artist" id="artist"></div></div><div class="buttons"><button class="danger" id="next">Próxima carta</button></div></div></div></div></section></main><div class="signature">by Videira · v1.41</div>
+</div><div id="scanView" class="hidden"><div id="reader"><video id="video" playsinline muted></video><div class="frame"></div></div><div class="status" id="status">Aponta a câmara ao QR HIT ROCK</div><div class="buttons"><button class="primary" id="start">Ligar câmara</button></div><div class="manual"><input id="manual" placeholder="HR0001 ou 0001"><button class="secondary" id="go">OK</button></div></div><div id="gameView" class="hidden"><div class="result"><div class="cardno" id="cardno"></div><div id="challenge" class="challenge hidden"><span id="wheel" class="wheel">🎡</span><div class="label">DESAFIO</div><div class="value" id="challengeText"></div></div><div id="festivalBoard" class="festivalBoard hidden"><div id="currentPlayer" class="currentPlayer"></div><div class="festTop" id="festTurn"></div><div class="festStage" id="festStage"></div><div class="festEvent" id="festEvent"></div><div class="festScores" id="festScores" style="display:none!important"></div><div id="festActions" class="festActions hidden"><button class="success" id="festHit">✅ ACERTOU</button><button class="fail" id="festMiss">❌ FALHOU</button></div></div><div id="flipView" class="flipmsg"><span class="phone">📱</span><h2>Vira o telemóvel para baixo</h2><p>Mantém o ecrã para cima enquanto lês. Depois vira o telemóvel completamente, com o ecrã virado para baixo.</p><div class="turnprogress"><i id="turnbar"></i></div><div id="motionNote" class="hint"></div></div><div id="playingView" class="hidden"><div class="secret">🎸 A TOCAR</div><p>Adivinha antes de revelar.</p><div class="spotifybox" id="spotifybox"></div><div class="buttons"><button class="secondary" id="revealBtn">Revelar resposta</button></div><div class="reveal hidden" id="answer"><h2 id="title"></h2><div class="year" id="year"></div><div class="artist" id="artist"></div></div><div class="buttons"><button class="danger" id="next">Próxima carta</button></div></div></div></div></section></main><div class="signature">by Videira · v1.44</div>
+
+
+<button id="homeMenuBtn" aria-label="Voltar ao menu inicial"
+ style="position:fixed;top:14px;right:14px;z-index:9100;width:48px;height:48px;min-width:48px;padding:0;border-radius:50%;font-size:23px;line-height:48px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.35)">
+⌂
+</button>
 
 <button id="festivalStandingsBtn" aria-label="Abrir classificação"
- style="display:none;position:fixed;top:14px;right:14px;z-index:9001;width:48px;height:48px;min-width:48px;padding:0;border-radius:50%;font-size:24px;line-height:48px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.35)">
+ style="display:none;position:fixed;top:14px;right:72px;z-index:9001;width:48px;height:48px;min-width:48px;padding:0;border-radius:50%;font-size:24px;line-height:48px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.35)">
 🏆
 </button>
 
@@ -37,6 +43,17 @@
  style="display:none;position:fixed;top:70px;right:14px;z-index:9000;width:min(330px,calc(100vw - 28px));background:#202020;border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.55)">
   <div style="font-weight:900;font-size:1.05rem;margin-bottom:10px">🏆 CLASSIFICAÇÃO</div>
   <div id="festivalStandingsList"></div>
+</div>
+
+
+<div id="leaveGameModal" style="display:none;position:fixed;inset:0;z-index:20000;background:rgba(0,0,0,.72);align-items:center;justify-content:center;padding:24px">
+  <div style="width:min(360px,100%);background:#202020;border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:22px;box-shadow:0 12px 36px rgba(0,0,0,.6);text-align:center">
+    <div style="font-size:1.08rem;font-weight:900;margin-bottom:20px">🎸 Terminar esta partida e voltar ao menu inicial?</div>
+    <div style="display:flex;gap:10px">
+      <button id="leaveGameCancel" style="flex:1">CANCELAR</button>
+      <button id="leaveGameConfirm" class="fail" style="flex:1">TERMINAR</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -53,8 +70,16 @@ function setGameInProgress(v){
     }catch(e){}
   }
 }
-function confirmLeaveHitrock(){
-  return confirm('⚠️ JOGO EM CURSO\n\nQueres mesmo abandonar a partida?\n\nSe saíres, o progresso atual pode ser perdido.');
+let leaveGameAction=null;
+function showLeaveGameModal(action){
+  leaveGameAction=action||null;
+  const m=document.getElementById('leaveGameModal');
+  if(m)m.style.display='flex';
+}
+function hideLeaveGameModal(){
+  const m=document.getElementById('leaveGameModal');
+  if(m)m.style.display='none';
+  leaveGameAction=null;
 }
 window.addEventListener('beforeunload',function(e){
   if(!hitrockGameInProgress || hitrockLeaving)return;
@@ -63,13 +88,8 @@ window.addEventListener('beforeunload',function(e){
 });
 window.addEventListener('popstate',function(){
   if(!hitrockGameInProgress || hitrockLeaving)return;
-  if(confirmLeaveHitrock()){
-    hitrockLeaving=true;
-    setGameInProgress(false);
-    history.back();
-  }else{
-    history.pushState({hitrockGame:true},'',location.href);
-  }
+  history.pushState({hitrockGame:true},'',location.href);
+  showLeaveGameModal(function(){ goHomeMenu(true); });
 });
 const $=x=>document.getElementById(x);
 window.onSpotifyIframeApiReady=(IFrameAPI)=>{spotifyApiReady=true;window._spotifyIFrameAPI=IFrameAPI;if(pendingSpotifyId)prepareSpotify(pendingSpotifyId)};
@@ -342,6 +362,41 @@ document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>chooseMode(b.d
   if(gameMode==='festival')prepareFestivalTurn();
   else{$('scanView').classList.remove('hidden');$('status').textContent='Aponta a câmara ao QR HIT ROCK';start()}
 };
+
+function goHomeMenu(confirmed){
+  if(hitrockGameInProgress && !confirmed){
+    showLeaveGameModal(function(){ goHomeMenu(true); });
+    return;
+  }
+
+  try{
+    if(typeof spotifyController!=='undefined' && spotifyController){
+      if(typeof spotifyController.pause==='function')spotifyController.pause();
+    }
+  }catch(e){}
+
+  current=null;
+  if(typeof setGameInProgress==='function')setGameInProgress(false);
+
+  // Hide every game screen we know about.
+  ['scannerView','flipView','playingView','festivalIntro','festivalBoard','festivalStandings'].forEach(id=>{
+    const el=$(id);
+    if(el){
+      if(id==='festivalStandings')el.style.display='none';
+      else el.classList.add('hidden');
+    }
+  });
+
+  // Show the original mode/menu screen.
+  const menu=$('modeView')||$('menuView')||$('startView');
+  if(menu)menu.classList.remove('hidden');
+
+  // Classification trophy only belongs to Festival gameplay.
+  if($('festivalStandingsBtn'))$('festivalStandingsBtn').style.display='none';
+
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
 function initFestivalStandingsUI(){
   const btn=$('festivalStandingsBtn');
   const pop=$('festivalStandings');
@@ -368,6 +423,31 @@ function initFestivalStandingsUI(){
   updateFestivalStandingsButton();
 }
 initFestivalStandingsUI();
+
+if($('leaveGameCancel')){
+  $('leaveGameCancel').onclick=function(e){
+    e.preventDefault();e.stopPropagation();
+    hideLeaveGameModal();
+  };
+}
+if($('leaveGameConfirm')){
+  $('leaveGameConfirm').onclick=function(e){
+    e.preventDefault();e.stopPropagation();
+    const action=leaveGameAction;
+    hideLeaveGameModal();
+    if(action)action();
+  };
+}
+
+
+if($('homeMenuBtn')){
+  $('homeMenuBtn').onclick=function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    goHomeMenu();
+  };
+}
+
 
 window.addEventListener('beforeunload',stop);if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');
 </script></body></html>

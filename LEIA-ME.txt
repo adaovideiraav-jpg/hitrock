@@ -1,0 +1,1 @@
+Substitui apenas o index.html atual do repositório HIT ROCK por este index.html. Os restantes ficheiros ficam iguais.

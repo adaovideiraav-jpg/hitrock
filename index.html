@@ -26,7 +26,7 @@
 <div class="stage" id="festivalIntroStage"></div>
 <div class="objective"><span>OBJETIVO DESTA FASE</span><strong id="festivalIntroObjective"></strong><div id="festivalIntroHelp" class="hint"></div></div>
 <div class="buttons"><button class="primary" id="festivalReady">Estou pronto — ler carta</button></div>
-</div><div id="scanView" class="hidden"><div id="reader"><video id="video" playsinline muted></video><div class="frame"></div></div><div class="status" id="status">Aponta a câmara ao QR HIT ROCK</div><div class="buttons"><button class="primary" id="start">Ligar câmara</button></div><div class="manual"><input id="manual" placeholder="HR0001 ou 0001"><button class="secondary" id="go">OK</button></div></div><div id="gameView" class="hidden"><div class="result"><div class="cardno" id="cardno"></div><div id="challenge" class="challenge hidden"><span id="wheel" class="wheel">🎡</span><div class="label">DESAFIO</div><div class="value" id="challengeText"></div></div><div id="festivalBoard" class="festivalBoard hidden"><div id="currentPlayer" class="currentPlayer"></div><div class="festTop" id="festTurn"></div><div class="festStage" id="festStage"></div><div class="festEvent" id="festEvent"></div><div class="festScores" id="festScores"></div><div id="festActions" class="festActions hidden"><button class="success" id="festHit">✅ ACERTOU</button><button class="fail" id="festMiss">❌ FALHOU</button></div></div><div id="flipView" class="flipmsg"><span class="phone">📱</span><h2>Vira o telemóvel para baixo</h2><p>Mantém o ecrã para cima enquanto lês. Depois vira o telemóvel completamente, com o ecrã virado para baixo.</p><div class="turnprogress"><i id="turnbar"></i></div><div id="motionNote" class="hint"></div></div><div id="playingView" class="hidden"><div class="secret">🎸 A TOCAR</div><p>Adivinha antes de revelar.</p><div class="spotifybox" id="spotifybox"></div><div class="buttons"><button class="secondary" id="revealBtn">Revelar resposta</button></div><div class="reveal hidden" id="answer"><h2 id="title"></h2><div class="year" id="year"></div><div class="artist" id="artist"></div></div><div class="buttons"><button class="danger" id="next">Próxima carta</button></div></div></div></div></section></main><div class="signature">by Videira · v1.26</div><script>
+</div><div id="scanView" class="hidden"><div id="reader"><video id="video" playsinline muted></video><div class="frame"></div></div><div class="status" id="status">Aponta a câmara ao QR HIT ROCK</div><div class="buttons"><button class="primary" id="start">Ligar câmara</button></div><div class="manual"><input id="manual" placeholder="HR0001 ou 0001"><button class="secondary" id="go">OK</button></div></div><div id="gameView" class="hidden"><div class="result"><div class="cardno" id="cardno"></div><div id="challenge" class="challenge hidden"><span id="wheel" class="wheel">🎡</span><div class="label">DESAFIO</div><div class="value" id="challengeText"></div></div><div id="festivalBoard" class="festivalBoard hidden"><div id="currentPlayer" class="currentPlayer"></div><div class="festTop" id="festTurn"></div><div class="festStage" id="festStage"></div><div class="festEvent" id="festEvent"></div><div class="festScores" id="festScores"></div><div id="festActions" class="festActions hidden"><button class="success" id="festHit">✅ ACERTOU</button><button class="fail" id="festMiss">❌ FALHOU</button></div></div><div id="flipView" class="flipmsg"><span class="phone">📱</span><h2>Vira o telemóvel para baixo</h2><p>Mantém o ecrã para cima enquanto lês. Depois vira o telemóvel completamente, com o ecrã virado para baixo.</p><div class="turnprogress"><i id="turnbar"></i></div><div id="motionNote" class="hint"></div></div><div id="playingView" class="hidden"><div class="secret">🎸 A TOCAR</div><p>Adivinha antes de revelar.</p><div class="spotifybox" id="spotifybox"></div><div class="buttons"><button class="secondary" id="revealBtn">Revelar resposta</button></div><div class="reveal hidden" id="answer"><h2 id="title"></h2><div class="year" id="year"></div><div class="artist" id="artist"></div></div><div class="buttons"><button class="danger" id="next">Próxima carta</button></div></div></div></div></section></main><div class="signature">by Videira · v1.27</div><script>
 let songs=[],map=new Map(),stream=null,scanning=false,detector=null,last='',current=null,gameMode='normal',currentChallenge='',motionReady=false,faceDownSince=0,latestGravityZ=null,scanFaceSign=null,spotifyController=null,spotifyApiReady=false,pendingSpotifyId='',festivalPlayers=[],festivalTurn=0,festivalRound=1,festivalEvent=null,festivalScored=false,festivalHeadliner=false,flipShownAt=0;
 let hitrockGameInProgress=false;
 let hitrockLeaving=false;
@@ -199,26 +199,14 @@ function onMotion(e){
   faceDownCheck(a.z,a.x||0,a.y||0);
 }
 function onOrientation(e){}
-function beginPlayback(){
-  if(!current||$('flipView').classList.contains('hidden'))return;
-
-  $('flipView').classList.add('hidden');
-  $('playingView').classList.remove('hidden');
-
-  if(gameMode==='festival'){
-    $('festivalBoard').classList.remove('hidden');
-    renderFestival();
-    $('playingView').classList.remove('hidden');
-  }
-
+function playCurrentSpotify(){
+  if(!current)return;
   const id=spotifyId(current);
   if(!id){
     $('spotifybox').innerHTML='<div class="hint">⚠️ Esta carta não tem Spotify associado.</div>';
     return;
   }
 
-  // O controller é preparado quando a carta é lida. Ao pousar ecrã para baixo,
-  // enviar Play imediatamente.
   try{
     if(spotifyController&&typeof spotifyController.play==='function'){
       const p=spotifyController.play();
@@ -232,9 +220,27 @@ function beginPlayback(){
     showSpotifyFallback(id);
   }
 }
+function beginPlayback(){
+  if(!current||$('flipView').classList.contains('hidden'))return;
+
+  $('flipView').classList.add('hidden');
+  $('playingView').classList.remove('hidden');
+
+  // TODOS os modos chegam aqui e usam exatamente o mesmo player/comando Play.
+  playCurrentSpotify();
+
+  // Festival apenas acrescenta o painel de jogo; não toca nem recria o Spotify.
+  if(gameMode==='festival'){
+    $('festivalBoard').classList.remove('hidden');
+    renderFestival();
+    $('playingView').classList.remove('hidden');
+  }
+}
 function showSpotifyFallback(id){
   const box=$('spotifybox');
-  box.innerHTML='<iframe title="Spotify" style="display:block;width:100%;height:152px;border:0;border-radius:12px" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" src="https://open.spotify.com/embed/track/'+id+'?utm_source=generator&theme=0&autoplay=1"></iframe>';
+  if(!box.querySelector('iframe')&&!box.querySelector('#spotifyControllerMount')){
+    box.innerHTML='<iframe title="Spotify" style="display:block;width:100%;height:152px;border:0;border-radius:12px" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" src="https://open.spotify.com/embed/track/'+id+'?utm_source=generator&theme=0&autoplay=1"></iframe>';
+  }
 }
 async function start(){try{await enableMotion();if(!('BarcodeDetector'in window)){$('status').textContent='Este browser não suporta leitura automática. Usa o campo de código abaixo.';return}detector=new BarcodeDetector({formats:['qr_code']});stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}}});$('video').srcObject=stream;await $('video').play();scanning=true;$('start').classList.add('hidden');$('status').textContent='À procura do QR…';tick()}catch(e){$('status').textContent='Não foi possível usar a câmara. Podes introduzir o código manualmente.'}}
 async function tick(){if(!scanning)return;try{let codes=await detector.detect($('video'));if(codes.length&&codes[0].rawValue!==last){last=codes[0].rawValue;load(last);return}}catch(e){}requestAnimationFrame(tick)}

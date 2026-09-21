@@ -26,7 +26,7 @@
 <div class="stage" id="festivalIntroStage"></div>
 <div class="objective"><span>OBJETIVO DESTA FASE</span><strong id="festivalIntroObjective"></strong><div id="festivalIntroHelp" class="hint"></div></div>
 <div class="buttons"><button class="primary" id="festivalReady">Estou pronto — ler carta</button></div>
-</div><div id="scanView" class="hidden"><div id="reader"><video id="video" playsinline muted></video><div class="frame"></div></div><div class="status" id="status">Aponta a câmara ao QR HIT ROCK</div><div class="buttons"><button class="primary" id="start">Ligar câmara</button></div><div class="manual"><input id="manual" placeholder="HR0001 ou 0001"><button class="secondary" id="go">OK</button></div></div><div id="gameView" class="hidden"><div class="result"><div class="cardno" id="cardno"></div><div id="challenge" class="challenge hidden"><span id="wheel" class="wheel">🎡</span><div class="label">DESAFIO</div><div class="value" id="challengeText"></div></div><div id="festivalBoard" class="festivalBoard hidden"><div id="currentPlayer" class="currentPlayer"></div><div class="festTop" id="festTurn"></div><div class="festStage" id="festStage"></div><div class="festEvent" id="festEvent"></div><div class="festScores" id="festScores"></div><div id="festActions" class="festActions hidden"><button class="success" id="festHit">✅ ACERTOU</button><button class="fail" id="festMiss">❌ FALHOU</button></div></div><div id="flipView" class="flipmsg"><span class="phone">📱</span><h2>Vira o telemóvel para baixo</h2><p>Mantém o ecrã para cima enquanto lês. Depois vira o telemóvel completamente, com o ecrã virado para baixo.</p><div class="turnprogress"><i id="turnbar"></i></div><div id="motionNote" class="hint"></div></div><div id="playingView" class="hidden"><div class="secret">🎸 A TOCAR</div><p>Adivinha antes de revelar.</p><div class="spotifybox" id="spotifybox"></div><div class="buttons"><button class="secondary" id="revealBtn">Revelar resposta</button></div><div class="reveal hidden" id="answer"><h2 id="title"></h2><div class="year" id="year"></div><div class="artist" id="artist"></div></div><div class="buttons"><button class="danger" id="next">Próxima carta</button></div></div></div></div></section></main><div class="signature">by Videira · v1.23</div><script>
+</div><div id="scanView" class="hidden"><div id="reader"><video id="video" playsinline muted></video><div class="frame"></div></div><div class="status" id="status">Aponta a câmara ao QR HIT ROCK</div><div class="buttons"><button class="primary" id="start">Ligar câmara</button></div><div class="manual"><input id="manual" placeholder="HR0001 ou 0001"><button class="secondary" id="go">OK</button></div></div><div id="gameView" class="hidden"><div class="result"><div class="cardno" id="cardno"></div><div id="challenge" class="challenge hidden"><span id="wheel" class="wheel">🎡</span><div class="label">DESAFIO</div><div class="value" id="challengeText"></div></div><div id="festivalBoard" class="festivalBoard hidden"><div id="currentPlayer" class="currentPlayer"></div><div class="festTop" id="festTurn"></div><div class="festStage" id="festStage"></div><div class="festEvent" id="festEvent"></div><div class="festScores" id="festScores"></div><div id="festActions" class="festActions hidden"><button class="success" id="festHit">✅ ACERTOU</button><button class="fail" id="festMiss">❌ FALHOU</button></div></div><div id="flipView" class="flipmsg"><span class="phone">📱</span><h2>Vira o telemóvel para baixo</h2><p>Mantém o ecrã para cima enquanto lês. Depois vira o telemóvel completamente, com o ecrã virado para baixo.</p><div class="turnprogress"><i id="turnbar"></i></div><div id="motionNote" class="hint"></div></div><div id="playingView" class="hidden"><div class="secret">🎸 A TOCAR</div><p>Adivinha antes de revelar.</p><div class="spotifybox" id="spotifybox"></div><div class="buttons"><button class="secondary" id="revealBtn">Revelar resposta</button></div><div class="reveal hidden" id="answer"><h2 id="title"></h2><div class="year" id="year"></div><div class="artist" id="artist"></div></div><div class="buttons"><button class="danger" id="next">Próxima carta</button></div></div></div></div></section></main><div class="signature">by Videira · v1.24</div><script>
 let songs=[],map=new Map(),stream=null,scanning=false,detector=null,last='',current=null,gameMode='normal',currentChallenge='',motionReady=false,faceDownSince=0,latestGravityZ=null,scanFaceSign=null,spotifyController=null,spotifyApiReady=false,pendingSpotifyId='',festivalPlayers=[],festivalTurn=0,festivalRound=1,festivalEvent=null,festivalScored=false,festivalHeadliner=false,flipShownAt=0;
 let hitrockGameInProgress=false;
 let hitrockLeaving=false;
@@ -137,7 +137,7 @@ function festivalChallenge(){
 function renderFestival(){if(gameMode!=='festival')return;let p=festivalPlayers[festivalTurn];$('festivalBoard').classList.remove('hidden');$('currentPlayer').textContent='🎤 AGORA JOGA: '+p.name;$('festTurn').textContent='🎪 RONDA '+festivalRound;$('festStage').textContent=stageFor(p.fans)+' · '+p.fans.toLocaleString('pt-PT')+' fãs · 🎟️ '+p.vip;$('festEvent').textContent=festivalHeadliner?'🔥 HEADLINER CHALLENGE — acerta para conquistar o festival!':festivalEvent[0];$('festScores').innerHTML=festivalPlayers.slice().sort((a,b)=>b.fans-a.fans).map(x=>'<div class="festScore '+(x===p?'active':'')+'>'+x.name+' — '+x.fans.toLocaleString('pt-PT')+' 👥 <span class="vip">🎟️ '+x.vip+'</span></div>').join('')}
 function scoreFestival(ok){if(festivalScored)return;festivalScored=true;let p=festivalPlayers[festivalTurn];if(festivalHeadliner&&ok){alert('👑 '+p.name+' É O HIT ROCK HEADLINER! 👑');$('festActions').classList.add('hidden');return}let gain=currentChallenge==='DÉCADA'?1000:currentChallenge==='± 4 ANOS'?2000:currentChallenge==='± 2 ANOS'?5000:currentChallenge==='ARTISTA + MÚSICA'?8000:10000;if(festivalEvent&&festivalEvent[1]==='double')gain*=2;if(festivalEvent&&festivalEvent[1]==='allin')gain*=2;if(ok){p.fans+=gain;p.streak++;if(festivalEvent&&festivalEvent[1]==='steal'){let rivals=festivalPlayers.filter(x=>x!==p).sort((a,b)=>b.fans-a.fans);if(rivals[0]){let n=Math.min(3000,rivals[0].fans);rivals[0].fans-=n;p.fans+=n}}if(p.streak%3===0)p.vip++}else{p.streak=0;if(festivalEvent&&festivalEvent[1]==='allin')p.fans=Math.max(0,p.fans-gain/2)}renderFestival();let rr=$('roundResult');rr.textContent=ok?'✅ ACERTOU! +'+gain.toLocaleString('pt-PT')+' fãs':'❌ FALHOU!';rr.classList.remove('hidden','ok','no');rr.classList.add(ok?'ok':'no');$('festActions').classList.add('hidden')}
 function chooseMode(m){gameMode=m;if(m==='festival'){festivalSetup();return}$('modeView').classList.add('hidden');$('scanView').classList.remove('hidden');$('status').textContent=m==='normal'?'Modo Normal — aponta a câmara ao QR':m==='roulette'?'Modo Roleta — aponta a câmara ao QR':'Modo Expert — aponta a câmara ao QR'}
-function load(raw){let s=parse(raw);if(!s){$('status').textContent='QR não reconhecido: '+raw;return}current=s;setGameInProgress(true);stop();$('scanView').classList.add('hidden');$('gameView').classList.remove('hidden');$('flipView').classList.remove('hidden');$('playingView').classList.add('hidden');flipShownAt=performance.now();$('festivalBoard').classList.add('hidden');$('cardno').textContent=(gameMode==='festival'&&festivalPlayers.length?'🎤 '+festivalPlayers[festivalTurn].name+' · ':'')+'CARTA '+String(s.n).padStart(3,'0');if(gameMode==='festival'){festivalChallenge();$('challenge').classList.remove('hidden')}else{pickChallenge()}$('title').textContent=s.title;$('artist').textContent=s.artist;$('year').textContent=s.year||'—';$('answer').classList.add('hidden');$('revealBtn').textContent='Revelar resposta';faceDownSince=0;scanFaceSign=null;scanFaceSign=null;$('turnbar').style.width='0';prepareSpotify(spotifyId(s));$('motionNote').textContent=motionReady?'Sensor ativo — vira o ecrã para baixo.':'Sensor pronto — vira o ecrã para baixo.';}
+function load(raw){let s=parse(raw);if(!s){$('status').textContent='QR não reconhecido: '+raw;return}current=s;setGameInProgress(true);stop();$('scanView').classList.add('hidden');$('gameView').classList.remove('hidden');$('flipView').classList.remove('hidden');$('playingView').classList.add('hidden');flipShownAt=performance.now();$('festivalBoard').classList.add('hidden');$('cardno').textContent=(gameMode==='festival'&&festivalPlayers.length?'🎤 '+festivalPlayers[festivalTurn].name+' · ':'')+'CARTA '+String(s.n).padStart(3,'0');if(gameMode==='festival'){festivalChallenge();$('challenge').classList.remove('hidden')}else{pickChallenge()}$('title').textContent=s.title;$('artist').textContent=s.artist;$('year').textContent=s.year||'—';$('answer').classList.add('hidden');$('revealBtn').textContent='Revelar resposta';resetFlipDetector();scanFaceSign=null;$('turnbar').style.width='0';prepareSpotify(spotifyId(s));$('motionNote').textContent=motionReady?'Sensor ativo — vira o ecrã para baixo.':'Sensor pronto — vira o ecrã para baixo.';}
 async function enableMotion(){
   try{
     motionReady=('DeviceMotionEvent' in window)||('DeviceOrientationEvent' in window);
@@ -153,25 +153,28 @@ async function enableMotion(){
     return false;
   }
 }
+let flipZMin=99,flipZMax=-99,flipArmed=false;
+function resetFlipDetector(){
+  flipZMin=99;flipZMax=-99;flipArmed=false;faceDownSince=0;
+  if($('flipState'))$('flipState').textContent='Vira o telemóvel 180° e deixa-o com o ecrã para baixo.';
+}
 function faceDownCheck(z,x,y){
   if(!current||$('flipView').classList.contains('hidden'))return;
-  if(performance.now()-flipShownAt<800)return;
+  if(performance.now()-flipShownAt<400)return;
 
-  let flat=Math.abs(z)>6.0&&Math.abs(x)<7.2&&Math.abs(y)<7.2;
+  // Durante a rotação guardamos os dois lados do eixo Z.
+  if(z<flipZMin)flipZMin=z;
+  if(z>flipZMax)flipZMax=z;
+  if(flipZMax>3.5&&flipZMin<-3.5)flipArmed=true;
 
-  // Calibrar primeiro com a posição em que a carta foi lida (ecrã para cima).
-  if(scanFaceSign==null){
-    if(flat)scanFaceSign=Math.sign(z)||1;
-    return;
-  }
+  let flat=Math.abs(z)>7.0&&Math.abs(x)<5.8&&Math.abs(y)<5.8;
 
-  // Só tocar depois de uma inversão real do eixo Z.
-  let down=flat&&Math.sign(z)===-scanFaceSign;
-  if(down){
+  if(flipArmed&&flat){
     if(!faceDownSince)faceDownSince=performance.now();
     let elapsed=performance.now()-faceDownSince;
-    $('turnbar').style.width=Math.min(100,elapsed/5)+'%';
-    if(elapsed>=500)beginPlayback();
+    $('turnbar').style.width=Math.min(100,elapsed/4)+'%';
+    if($('flipState'))$('flipState').textContent='✓ Viragem detetada…';
+    if(elapsed>=400)beginPlayback();
   }else{
     faceDownSince=0;
     $('turnbar').style.width='0';
@@ -183,15 +186,9 @@ function onMotion(e){
   latestGravityZ=a.z;
   faceDownCheck(a.z,a.x||0,a.y||0);
 }
-function onOrientation(e){
-  // Não usamos beta/gamma para decidir cima/baixo porque vários Android
-  // reportam estes valores de forma diferente. O eixo Z é a referência.
-}
+function onOrientation(e){}
 function beginPlayback(){
   if(!current||$('flipView').classList.contains('hidden'))return;
-
-  faceDownSince=0;
-  $('turnbar').style.width='100%';
   $('flipView').classList.add('hidden');
   $('playingView').classList.remove('hidden');
 
@@ -202,43 +199,39 @@ function beginPlayback(){
   }
 
   let id=spotifyId(current);
-  let box=$('spotifybox');
   if(!id){
-    box.innerHTML='<div class="hint">⚠️ Esta carta não tem Spotify associado.</div>';
+    $('spotifybox').innerHTML='<div class="hint">⚠️ Esta carta não tem Spotify associado.</div>';
     return;
   }
 
+  // O player fica sempre visível após a viragem.
+  if(!$('spotifybox').children.length)showSpotifyFallback(id);
+
   try{
     if(spotifyController&&typeof spotifyController.play==='function'){
-      let p=spotifyController.play();
-      if(p&&typeof p.catch==='function')p.catch(()=>showSpotifyFallback(id));
+      Promise.resolve(spotifyController.play()).catch(()=>{});
     }else if(spotifyController&&typeof spotifyController.togglePlay==='function'){
       spotifyController.togglePlay();
     }else{
       showSpotifyFallback(id);
     }
-  }catch(e){
-    showSpotifyFallback(id);
-  }
+  }catch(e){showSpotifyFallback(id)}
 }
 function showSpotifyFallback(id){
-  let box=$('spotifybox');
-  if(!box.querySelector('iframe')){
-    box.innerHTML='<iframe title="Spotify" style="width:100%;height:152px;border:0;border-radius:12px" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="eager" src="https://open.spotify.com/embed/track/'+id+'?utm_source=generator&theme=0&autoplay=1"></iframe>';
-  }
+  $('spotifybox').innerHTML='<iframe title="Spotify" style="display:block;width:100%;height:152px;border:0;border-radius:12px" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" src="https://open.spotify.com/embed/track/'+id+'?utm_source=generator&theme=0&autoplay=1"></iframe>';
 }
 async function start(){try{await enableMotion();if(!('BarcodeDetector'in window)){$('status').textContent='Este browser não suporta leitura automática. Usa o campo de código abaixo.';return}detector=new BarcodeDetector({formats:['qr_code']});stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}}});$('video').srcObject=stream;await $('video').play();scanning=true;$('start').classList.add('hidden');$('status').textContent='À procura do QR…';tick()}catch(e){$('status').textContent='Não foi possível usar a câmara. Podes introduzir o código manualmente.'}}
 async function tick(){if(!scanning)return;try{let codes=await detector.detect($('video'));if(codes.length&&codes[0].rawValue!==last){last=codes[0].rawValue;load(last);return}}catch(e){}requestAnimationFrame(tick)}
 function stop(){scanning=false;if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}$('video').srcObject=null}
 document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>chooseMode(b.dataset.mode));$('start').onclick=start;$('go').onclick=async()=>{await enableMotion();load($('manual').value)};$('manual').onkeydown=async e=>{if(e.key==='Enter'){await enableMotion();load(e.target.value)}};$('flipView').onclick=async()=>{let ok=await enableMotion();$('motionNote').textContent=ok?'Sensor ativo — vira o ecrã para baixo.':'Sensor de movimento indisponível.'};$('revealBtn').onclick=()=>{
+  if(!current)return;
+  $('title').textContent=current.title||current.name||'—';
+  $('artist').textContent=current.artist||current.band||'—';
+  $('year').textContent=current.year||'—';
   $('answer').classList.remove('hidden');
   $('revealBtn').textContent='Resposta revelada';
-  if(gameMode==='festival'){
-    $('festActions').classList.remove('hidden');
-    $('festActions').scrollIntoView({behavior:'smooth',block:'nearest'});
-  }else{
-    $('answer').scrollIntoView({behavior:'smooth',block:'nearest'});
-  }
+  if(gameMode==='festival')$('festActions').classList.remove('hidden');
+  setTimeout(()=>$('answer').scrollIntoView({behavior:'smooth',block:'center'}),50);
 };$('festivalReady').onclick=()=>{
   let p=festivalPlayers[festivalTurn],info=festivalStageInfo(p.fans);
   $('festivalIntro').classList.add('hidden');

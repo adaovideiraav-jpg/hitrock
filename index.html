@@ -10,11 +10,23 @@
 .challenge.green{background:#2e7d32!important}
 .challenge.purple{background:#880e4f!important}
 
+.festivalIntro{margin-top:14px;padding:20px;border:1px solid #ffffff25;border-radius:18px;background:#ffffff0d;text-align:center}
+.festivalIntro .who{font-size:14px;opacity:.72;font-weight:900;letter-spacing:.08em}
+.festivalIntro .player{font-size:30px;font-weight:1000;margin:8px 0 18px}
+.festivalIntro .stage{font-size:24px;font-weight:1000;margin:8px 0}
+.festivalIntro .objective{margin:14px 0;padding:15px;border-radius:14px;background:#ffffff12}
+.festivalIntro .objective strong{display:block;font-size:20px;margin-top:5px}
 .festivalSetup,.festivalBoard{margin-top:14px;padding:14px;border:1px solid #ffffff25;border-radius:18px;background:#ffffff0d}.festivalSetup input{width:100%;margin:5px 0;background:#000b;border:1px solid #ffffff35;color:#fff;border-radius:12px;padding:11px}.festTop{font-weight:1000;font-size:18px}.festStage{font-size:13px;opacity:.75;margin:4px 0 10px}.festScores{display:grid;gap:5px;text-align:left;font-size:14px}.festScore.active{font-weight:1000}.festEvent{margin:10px 0;padding:10px;border-radius:12px;background:#ffffff14;font-weight:900}.festActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.success{background:#2e7d32;color:#fff}.fail{background:#c62828;color:#fff}.vip{font-size:12px;opacity:.75}
 .currentPlayer{margin:0 0 14px;padding:15px;border-radius:18px;background:#fff;color:#050505;text-align:center;font-size:22px;font-weight:1000}
 .roundResult{margin:12px 0;padding:14px;border-radius:16px;text-align:center;font-size:20px;font-weight:1000}
 .roundResult.ok{background:#2e7d32}.roundResult.no{background:#c62828}.festActions{margin-bottom:12px}.reveal{scroll-margin-top:12px}
-</style><script src="https://open.spotify.com/embed/iframe-api/v1" async></script></head><body><main class="app"><header><div class="logo">HIT ROCK</div><div class="sub">scan • listen • guess</div></header><section class="panel"><div id="modeView" class="modeview"><h2>Escolhe o modo</h2><p>Como queres jogar?</p><div class="modegrid"><button class="primary modebtn" data-mode="normal">🎵 NORMAL<small>Modo clássico HIT ROCK</small></button><button class="secondary modebtn" data-mode="roulette">🎡 ROLETA<small>Década · ±4 · ±2 · Banda/Solo · Ano exato</small></button><button class="secondary modebtn" data-mode="expert">🔥 EXPERT<small>Ano · Década · Artista · Música · ±3</small></button><button class="secondary modebtn" data-mode="festival">🎪 FESTIVAL<small>Ganha fãs · sobe de palco · torna-te Headliner</small></button></div><div id="festivalSetup" class="festivalSetup hidden"><h3>🎪 Criar Festival</h3><p>2 a 8 bandas/jogadores</p><div id="festivalNames"></div><div class="buttons"><button class="primary" id="festivalStart">Começar Festival</button></div></div></div><div id="scanView" class="hidden"><div id="reader"><video id="video" playsinline muted></video><div class="frame"></div></div><div class="status" id="status">Aponta a câmara ao QR HIT ROCK</div><div class="buttons"><button class="primary" id="start">Ligar câmara</button></div><div class="manual"><input id="manual" placeholder="HR0001 ou 0001"><button class="secondary" id="go">OK</button></div></div><div id="gameView" class="hidden"><div class="result"><div class="cardno" id="cardno"></div><div id="challenge" class="challenge hidden"><span id="wheel" class="wheel">🎡</span><div class="label">DESAFIO</div><div class="value" id="challengeText"></div></div><div id="festivalBoard" class="festivalBoard hidden"><div id="currentPlayer" class="currentPlayer"></div><div class="festTop" id="festTurn"></div><div class="festStage" id="festStage"></div><div class="festEvent" id="festEvent"></div><div class="festScores" id="festScores"></div><div id="festActions" class="festActions hidden"><button class="success" id="festHit">✅ ACERTOU</button><button class="fail" id="festMiss">❌ FALHOU</button></div></div><div id="flipView" class="flipmsg"><span class="phone">📱</span><h2>Vira o telemóvel para baixo</h2><p>Mantém o ecrã para cima enquanto lês. Depois vira o telemóvel completamente, com o ecrã virado para baixo.</p><div class="turnprogress"><i id="turnbar"></i></div><div id="motionNote" class="hint"></div></div><div id="playingView" class="hidden"><div class="secret">🎸 A TOCAR</div><p>Adivinha antes de revelar.</p><div class="spotifybox" id="spotifybox"></div><div class="buttons"><button class="secondary" id="revealBtn">Revelar resposta</button></div><div class="reveal hidden" id="answer"><h2 id="title"></h2><div class="year" id="year"></div><div class="artist" id="artist"></div></div><div class="buttons"><button class="danger" id="next">Próxima carta</button></div></div></div></div></section></main><div class="signature">by Videira · v1.21</div><script>
+</style><script src="https://open.spotify.com/embed/iframe-api/v1" async></script></head><body><main class="app"><header><div class="logo">HIT ROCK</div><div class="sub">scan • listen • guess</div></header><section class="panel"><div id="modeView" class="modeview"><h2>Escolhe o modo</h2><p>Como queres jogar?</p><div class="modegrid"><button class="primary modebtn" data-mode="normal">🎵 NORMAL<small>Modo clássico HIT ROCK</small></button><button class="secondary modebtn" data-mode="roulette">🎡 ROLETA<small>Década · ±4 · ±2 · Banda/Solo · Ano exato</small></button><button class="secondary modebtn" data-mode="expert">🔥 EXPERT<small>Ano · Década · Artista · Música · ±3</small></button><button class="secondary modebtn" data-mode="festival">🎪 FESTIVAL<small>Ganha fãs · sobe de palco · torna-te Headliner</small></button></div><div id="festivalSetup" class="festivalSetup hidden"><h3>🎪 Criar Festival</h3><p>2 a 8 bandas/jogadores</p><div id="festivalNames"></div><div class="buttons"><button class="primary" id="festivalStart">Começar Festival</button></div></div></div><div id="festivalIntro" class="festivalIntro hidden">
+<div class="who">AGORA JOGA</div>
+<div class="player" id="festivalIntroPlayer"></div>
+<div class="stage" id="festivalIntroStage"></div>
+<div class="objective"><span>OBJETIVO DESTA FASE</span><strong id="festivalIntroObjective"></strong><div id="festivalIntroHelp" class="hint"></div></div>
+<div class="buttons"><button class="primary" id="festivalReady">Estou pronto — ler carta</button></div>
+</div><div id="scanView" class="hidden"><div id="reader"><video id="video" playsinline muted></video><div class="frame"></div></div><div class="status" id="status">Aponta a câmara ao QR HIT ROCK</div><div class="buttons"><button class="primary" id="start">Ligar câmara</button></div><div class="manual"><input id="manual" placeholder="HR0001 ou 0001"><button class="secondary" id="go">OK</button></div></div><div id="gameView" class="hidden"><div class="result"><div class="cardno" id="cardno"></div><div id="challenge" class="challenge hidden"><span id="wheel" class="wheel">🎡</span><div class="label">DESAFIO</div><div class="value" id="challengeText"></div></div><div id="festivalBoard" class="festivalBoard hidden"><div id="currentPlayer" class="currentPlayer"></div><div class="festTop" id="festTurn"></div><div class="festStage" id="festStage"></div><div class="festEvent" id="festEvent"></div><div class="festScores" id="festScores"></div><div id="festActions" class="festActions hidden"><button class="success" id="festHit">✅ ACERTOU</button><button class="fail" id="festMiss">❌ FALHOU</button></div></div><div id="flipView" class="flipmsg"><span class="phone">📱</span><h2>Vira o telemóvel para baixo</h2><p>Mantém o ecrã para cima enquanto lês. Depois vira o telemóvel completamente, com o ecrã virado para baixo.</p><div class="turnprogress"><i id="turnbar"></i></div><div id="motionNote" class="hint"></div></div><div id="playingView" class="hidden"><div class="secret">🎸 A TOCAR</div><p>Adivinha antes de revelar.</p><div class="spotifybox" id="spotifybox"></div><div class="buttons"><button class="secondary" id="revealBtn">Revelar resposta</button></div><div class="reveal hidden" id="answer"><h2 id="title"></h2><div class="year" id="year"></div><div class="artist" id="artist"></div></div><div class="buttons"><button class="danger" id="next">Próxima carta</button></div></div></div></div></section></main><div class="signature">by Videira · v1.22</div><script>
 let songs=[],map=new Map(),stream=null,scanning=false,detector=null,last='',current=null,gameMode='normal',currentChallenge='',motionReady=false,faceDownSince=0,latestGravityZ=null,scanFaceSign=null,spotifyController=null,spotifyApiReady=false,pendingSpotifyId='',festivalPlayers=[],festivalTurn=0,festivalRound=1,festivalEvent=null,festivalScored=false,festivalHeadliner=false,flipShownAt=0;
 let hitrockGameInProgress=false;
 let hitrockLeaving=false;
@@ -80,13 +92,52 @@ function prepareSpotify(id){
 }
 const challenges={roulette:['DÉCADA','± 4 ANOS','± 2 ANOS','BANDA OU SOLO','ANO EXATO'],expert:['ANO EXATO','DÉCADA','NOME DA BANDA OU ARTISTA','NOME DA MÚSICA','± 3 ANOS']};const challengeColorsV7=['blue','red','yellow','green','purple'];let wheelTimerV7=null;function paintChallengeV7(i){let c=$('challenge');challengeColorsV7.forEach(x=>c.classList.remove(x));c.classList.add(challengeColorsV7[i]);$('challengeText').textContent=challenges[gameMode][i]}function pickChallenge(){if(gameMode==='festival'){festivalChallenge();$('challenge').classList.remove('hidden');return}if(gameMode==='normal'){$('challenge').classList.add('hidden');return}if(wheelTimerV7)clearTimeout(wheelTimerV7);let a=challenges[gameMode],winner=Math.floor(Math.random()*a.length),start=performance.now(),i=0;currentChallenge=a[winner];$('challenge').classList.remove('hidden');let w=$('wheel');w.classList.remove('spinning');void w.offsetWidth;w.classList.add('spinning');function suspense(){let elapsed=performance.now()-start;if(elapsed>=5000){paintChallengeV7(winner);return}paintChallengeV7(i%5);i++;wheelTimerV7=setTimeout(suspense,90+Math.pow(elapsed/5000,3)*520)}suspense()}const festivalEvents=[['🔥 FÃS A DOBRAR','double'],['⚡ ROUBA 3.000 FÃS','steal'],['🎤 ARTISTA OBRIGATÓRIO','artist'],['💀 TUDO OU NADA','allin'],['🤝 DUETO','duet'],['🎸 ENCORE','encore']];
 function festivalSetup(){let box=$('festivalNames');box.innerHTML='';for(let i=0;i<8;i++){let inp=document.createElement('input');inp.placeholder=i<2?'Nome da banda/jogador '+(i+1):'Opcional '+(i+1);inp.className='festName';box.appendChild(inp)}$('festivalSetup').classList.remove('hidden')}
-function startFestival(){let names=[...document.querySelectorAll('.festName')].map(x=>x.value.trim()).filter(Boolean);if(names.length<2){alert('Indica pelo menos 2 bandas/jogadores.');return}setGameInProgress(true);festivalPlayers=names.map(n=>({name:n,fans:0,streak:0,vip:0}));festivalTurn=0;festivalRound=1;$('festivalSetup').classList.add('hidden');$('modeView').classList.add('hidden');$('scanView').classList.remove('hidden');$('status').textContent='Festival — '+festivalPlayers[0].name+' digitaliza uma carta'}
-function stageFor(f){return f>=50000?'👑 HEADLINER':f>=35000?'🔥 PALCO PRINCIPAL':f>=20000?'🎪 FESTIVAL':f>=8000?'🎸 CLUBE':'🍺 BAR'}
-function festivalChallenge(){let p=festivalPlayers[festivalTurn];festivalHeadliner=p.fans>=50000;let opts=festivalHeadliner?['DÉCADA','ARTISTA','ANO ±2']:['DÉCADA','± 4 ANOS','± 2 ANOS','ARTISTA + MÚSICA','ANO EXATO'];let idx=Math.floor(Math.random()*opts.length);currentChallenge=opts[idx];paintChallengeV7(idx%5);festivalEvent=festivalEvents[Math.floor(Math.random()*festivalEvents.length)];festivalScored=false;if($('roundResult')){$('roundResult').classList.add('hidden');$('roundResult').classList.remove('ok','no');$('roundResult').textContent=''}renderFestival()}
+function startFestival(){
+  let names=[...document.querySelectorAll('.festName')].map(x=>x.value.trim()).filter(Boolean);
+  if(names.length<2){alert('Indica pelo menos 2 bandas/jogadores.');return}
+  setGameInProgress(true);
+  festivalPlayers=names.map(n=>({name:n,fans:0,streak:0,vip:0}));
+  festivalTurn=0;festivalRound=1;
+  $('festivalSetup').classList.add('hidden');
+  prepareFestivalTurn();
+}
+function festivalStageInfo(f){
+  if(f>=50000)return {name:'👑 HEADLINER',challenge:'ANO EXATO + ARTISTA',help:'Diz o ano exato e o nome do artista.'};
+  if(f>=35000)return {name:'🔥 PALCO PRINCIPAL',challenge:'ARTISTA + MÚSICA',help:'Diz o nome do artista/banda e o título da música.'};
+  if(f>=20000)return {name:'🎪 FESTIVAL',challenge:'± 2 ANOS',help:'Tenta acertar no ano, com uma margem máxima de 2 anos.'};
+  if(f>=8000)return {name:'🎸 CLUBE',challenge:'± 4 ANOS',help:'Tenta acertar no ano, com uma margem máxima de 4 anos.'};
+  return {name:'🍺 BAR',challenge:'DÉCADA',help:'Diz em que década foi lançada a música.'};
+}
+function stageFor(f){return festivalStageInfo(f).name}
+function prepareFestivalTurn(){
+  let p=festivalPlayers[festivalTurn],info=festivalStageInfo(p.fans);
+  festivalHeadliner=p.fans>=50000;
+  currentChallenge=info.challenge;
+  festivalEvent=festivalEvents[Math.floor(Math.random()*festivalEvents.length)];
+  festivalScored=false;
+  $('festivalIntroPlayer').textContent=p.name;
+  $('festivalIntroStage').textContent=info.name+' · '+p.fans.toLocaleString('pt-PT')+' fãs';
+  $('festivalIntroObjective').textContent=info.challenge;
+  $('festivalIntroHelp').textContent=info.help;
+  $('modeView').classList.add('hidden');
+  $('scanView').classList.add('hidden');
+  $('gameView').classList.add('hidden');
+  $('festivalIntro').classList.remove('hidden');
+}
+function festivalChallenge(){
+  let p=festivalPlayers[festivalTurn],info=festivalStageInfo(p.fans);
+  festivalHeadliner=p.fans>=50000;
+  currentChallenge=info.challenge;
+  let idx=currentChallenge==='DÉCADA'?0:currentChallenge==='± 4 ANOS'?1:currentChallenge==='± 2 ANOS'?2:currentChallenge==='ARTISTA + MÚSICA'?3:4;
+  paintChallengeV7(idx);
+  festivalScored=false;
+  if($('roundResult')){$('roundResult').classList.add('hidden');$('roundResult').classList.remove('ok','no');$('roundResult').textContent=''}
+  renderFestival();
+}
 function renderFestival(){if(gameMode!=='festival')return;let p=festivalPlayers[festivalTurn];$('festivalBoard').classList.remove('hidden');$('currentPlayer').textContent='🎤 AGORA JOGA: '+p.name;$('festTurn').textContent='🎪 RONDA '+festivalRound;$('festStage').textContent=stageFor(p.fans)+' · '+p.fans.toLocaleString('pt-PT')+' fãs · 🎟️ '+p.vip;$('festEvent').textContent=festivalHeadliner?'🔥 HEADLINER CHALLENGE — acerta para conquistar o festival!':festivalEvent[0];$('festScores').innerHTML=festivalPlayers.slice().sort((a,b)=>b.fans-a.fans).map(x=>'<div class="festScore '+(x===p?'active':'')+'>'+x.name+' — '+x.fans.toLocaleString('pt-PT')+' 👥 <span class="vip">🎟️ '+x.vip+'</span></div>').join('')}
 function scoreFestival(ok){if(festivalScored)return;festivalScored=true;let p=festivalPlayers[festivalTurn];if(festivalHeadliner&&ok){alert('👑 '+p.name+' É O HIT ROCK HEADLINER! 👑');$('festActions').classList.add('hidden');return}let gain=currentChallenge==='DÉCADA'?1000:currentChallenge==='± 4 ANOS'?2000:currentChallenge==='± 2 ANOS'?5000:currentChallenge==='ARTISTA + MÚSICA'?8000:10000;if(festivalEvent&&festivalEvent[1]==='double')gain*=2;if(festivalEvent&&festivalEvent[1]==='allin')gain*=2;if(ok){p.fans+=gain;p.streak++;if(festivalEvent&&festivalEvent[1]==='steal'){let rivals=festivalPlayers.filter(x=>x!==p).sort((a,b)=>b.fans-a.fans);if(rivals[0]){let n=Math.min(3000,rivals[0].fans);rivals[0].fans-=n;p.fans+=n}}if(p.streak%3===0)p.vip++}else{p.streak=0;if(festivalEvent&&festivalEvent[1]==='allin')p.fans=Math.max(0,p.fans-gain/2)}renderFestival();let rr=$('roundResult');rr.textContent=ok?'✅ ACERTOU! +'+gain.toLocaleString('pt-PT')+' fãs':'❌ FALHOU!';rr.classList.remove('hidden','ok','no');rr.classList.add(ok?'ok':'no');$('festActions').classList.add('hidden')}
 function chooseMode(m){gameMode=m;if(m==='festival'){festivalSetup();return}$('modeView').classList.add('hidden');$('scanView').classList.remove('hidden');$('status').textContent=m==='normal'?'Modo Normal — aponta a câmara ao QR':m==='roulette'?'Modo Roleta — aponta a câmara ao QR':'Modo Expert — aponta a câmara ao QR'}
-function load(raw){let s=parse(raw);if(!s){$('status').textContent='QR não reconhecido: '+raw;return}current=s;setGameInProgress(true);stop();$('scanView').classList.add('hidden');$('gameView').classList.remove('hidden');$('flipView').classList.remove('hidden');$('playingView').classList.add('hidden');flipShownAt=performance.now();$('festivalBoard').classList.add('hidden');$('cardno').textContent=(gameMode==='festival'&&festivalPlayers.length?'🎤 '+festivalPlayers[festivalTurn].name+' · ':'')+'CARTA '+String(s.n).padStart(3,'0');pickChallenge();$('title').textContent=s.title;$('artist').textContent=s.artist;$('year').textContent=s.year||'—';$('answer').classList.add('hidden');$('revealBtn').textContent='Revelar resposta';faceDownSince=0;scanFaceSign=null;$('turnbar').style.width='0';prepareSpotify(spotifyId(s));$('motionNote').textContent=motionReady?'Sensor ativo — vira o ecrã para baixo.':'Sensor pronto — vira o ecrã para baixo.';}
+function load(raw){let s=parse(raw);if(!s){$('status').textContent='QR não reconhecido: '+raw;return}current=s;setGameInProgress(true);stop();$('scanView').classList.add('hidden');$('gameView').classList.remove('hidden');$('flipView').classList.remove('hidden');$('playingView').classList.add('hidden');flipShownAt=performance.now();$('festivalBoard').classList.add('hidden');$('cardno').textContent=(gameMode==='festival'&&festivalPlayers.length?'🎤 '+festivalPlayers[festivalTurn].name+' · ':'')+'CARTA '+String(s.n).padStart(3,'0');if(gameMode==='festival'){festivalChallenge();$('challenge').classList.remove('hidden')}else{pickChallenge()}$('title').textContent=s.title;$('artist').textContent=s.artist;$('year').textContent=s.year||'—';$('answer').classList.add('hidden');$('revealBtn').textContent='Revelar resposta';faceDownSince=0;scanFaceSign=null;$('turnbar').style.width='0';prepareSpotify(spotifyId(s));$('motionNote').textContent=motionReady?'Sensor ativo — vira o ecrã para baixo.':'Sensor pronto — vira o ecrã para baixo.';}
 async function enableMotion(){
   try{
     motionReady=('DeviceMotionEvent' in window)||('DeviceOrientationEvent' in window);
@@ -208,5 +259,25 @@ document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>chooseMode(b.d
         $('festActions').classList.remove('hidden');
         $('festActions').scrollIntoView({behavior:'smooth',block:'nearest'});
       }
-    };$('festivalStart').onclick=startFestival;$('festHit').onclick=()=>scoreFestival(true);$('festMiss').onclick=()=>scoreFestival(false);$('next').onclick=()=>{if(gameMode==='festival'){if(!festivalScored){alert('Marca ACERTOU ou FALHOU antes da próxima carta.');return}festivalTurn=(festivalTurn+1)%festivalPlayers.length;if(festivalTurn===0)festivalRound++;$('festivalBoard').classList.add('hidden');$('festActions').classList.add('hidden')}last='';current=null;scanFaceSign=null;faceDownSince=0;spotifyController=null;pendingSpotifyId='';$('spotifybox').innerHTML='';$('gameView').classList.add('hidden');$('scanView').classList.remove('hidden');$('start').classList.remove('hidden');$('status').textContent=gameMode==='festival'?'Festival — '+festivalPlayers[festivalTurn].name+' digitaliza uma carta':'Aponta a câmara ao QR HIT ROCK';$('manual').value='';start()};window.addEventListener('beforeunload',stop);if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');
+    };$('festivalReady').onclick=()=>{
+  let p=festivalPlayers[festivalTurn],info=festivalStageInfo(p.fans);
+  $('festivalIntro').classList.add('hidden');
+  $('scanView').classList.remove('hidden');
+  $('status').textContent=info.name+' — '+p.name+' — Objetivo: '+info.challenge;
+  $('start').classList.remove('hidden');
+  start();
+};$('festivalStart').onclick=startFestival;$('festHit').onclick=()=>scoreFestival(true);$('festMiss').onclick=()=>scoreFestival(false);$('next').onclick=()=>{
+  if(gameMode==='festival'){
+    if(!festivalScored){alert('Marca ACERTOU ou FALHOU antes da próxima carta.');return}
+    festivalTurn=(festivalTurn+1)%festivalPlayers.length;
+    if(festivalTurn===0)festivalRound++;
+    $('festivalBoard').classList.add('hidden');
+    $('festActions').classList.add('hidden');
+  }
+  last='';current=null;scanFaceSign=null;faceDownSince=0;spotifyController=null;pendingSpotifyId='';
+  $('spotifybox').innerHTML='';$('gameView').classList.add('hidden');$('scanView').classList.add('hidden');
+  $('start').classList.remove('hidden');$('manual').value='';
+  if(gameMode==='festival')prepareFestivalTurn();
+  else{$('scanView').classList.remove('hidden');$('status').textContent='Aponta a câmara ao QR HIT ROCK';start()}
+};window.addEventListener('beforeunload',stop);if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');
 </script></body></html>

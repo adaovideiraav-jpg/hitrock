@@ -110,7 +110,7 @@ border:none!important;outline:none!important;box-shadow:none!important
 <div class="stage" id="festivalIntroStage"></div>
 <div class="objective"><span>OBJETIVO DESTA FASE</span><strong id="festivalIntroObjective"></strong><div id="festivalIntroHelp" class="hint"></div></div>
 <div class="buttons"><button class="primary" id="festivalReady">Estou pronto — ler carta</button></div>
-</div><div id="scanView" class="hidden"><div id="reader"><video id="video" playsinline muted></video><div class="frame"></div></div><div class="status" id="status">Aponta a câmara ao QR HIT ROCK</div><div class="buttons"><button class="primary" id="start">Ligar câmara</button></div><div class="manual"><input id="manual" placeholder="HR0001 ou 0001"><button class="secondary" id="go">OK</button></div></div><div id="gameView" class="hidden"><div class="result"><div class="cardno" id="cardno"></div><div id="challenge" class="challenge hidden"><span id="wheel" class="wheel">🎡</span><div class="label">DESAFIO</div><div class="value" id="challengeText"></div></div><div id="festivalBoard" class="festivalBoard hidden"><div id="currentPlayer" class="currentPlayer"></div><div class="festTop" id="festTurn"></div><div class="festStage" id="festStage"></div><div class="festEvent" id="festEvent"></div><div class="festScores" id="festScores" style="display:none!important"></div><div id="festActions" class="festActions hidden"><button class="success" id="festHit">✅ ACERTOU</button><button class="fail" id="festMiss">❌ FALHOU</button></div></div><div id="flipView" class="flipmsg"><span class="phone">📱</span><h2>Vira o telemóvel para baixo</h2><p>Mantém o ecrã para cima enquanto lês. Depois vira o telemóvel completamente, com o ecrã virado para baixo.</p><div class="turnprogress"><i id="turnbar"></i></div><div id="motionNote" class="hint"></div></div><div id="playingView" class="hidden"><div class="secret">🎸 A TOCAR</div><p>Adivinha antes de revelar.</p><div class="spotifybox" id="spotifybox"></div><div class="buttons"><button class="secondary" id="revealBtn">Revelar resposta</button></div><div class="reveal hidden" id="answer"><h2 id="title"></h2><div class="year" id="year"></div><div class="artist" id="artist"></div></div><div class="buttons"><button class="danger" id="next">Próxima carta</button></div></div></div></div></section></main><div class="signature">by Videira · v1.58</div>
+</div><div id="scanView" class="hidden"><div id="reader"><video id="video" playsinline muted></video><div class="frame"></div></div><div class="status" id="status">Aponta a câmara ao QR HIT ROCK</div><div class="buttons"><button class="primary" id="start">Ligar câmara</button></div><div class="manual"><input id="manual" placeholder="HR0001 ou 0001"><button class="secondary" id="go">OK</button></div></div><div id="gameView" class="hidden"><div class="result"><div class="cardno" id="cardno"></div><div id="challenge" class="challenge hidden"><span id="wheel" class="wheel">🎡</span><div class="label">DESAFIO</div><div class="value" id="challengeText"></div></div><div id="festivalBoard" class="festivalBoard hidden"><div id="currentPlayer" class="currentPlayer"></div><div class="festTop" id="festTurn"></div><div class="festStage" id="festStage"></div><div class="festEvent" id="festEvent"></div><div class="festScores" id="festScores" style="display:none!important"></div><div id="festActions" class="festActions hidden"><button class="success" id="festHit">✅ ACERTOU</button><button class="fail" id="festMiss">❌ FALHOU</button></div></div><div id="flipView" class="flipmsg"><span class="phone">📱</span><h2>Vira o telemóvel para baixo</h2><p>Mantém o ecrã para cima enquanto lês. Depois vira o telemóvel completamente, com o ecrã virado para baixo.</p><div class="turnprogress"><i id="turnbar"></i></div><div id="motionNote" class="hint"></div></div><div id="playingView" class="hidden"><div class="secret">🎸 A TOCAR</div><p>Adivinha antes de revelar.</p><div class="spotifybox" id="spotifybox"></div><div class="buttons"><button class="secondary" id="revealBtn">Revelar resposta</button></div><div class="reveal hidden" id="answer"><h2 id="title"></h2><div class="year" id="year"></div><div class="artist" id="artist"></div></div><div class="buttons"><button class="danger" id="next">Próxima carta</button></div></div></div></div></section></main><div class="signature">by Videira · v1.59</div>
 
 
 <button id="homeMenuBtn" aria-label="Voltar ao menu inicial"
@@ -146,7 +146,7 @@ border:none!important;outline:none!important;box-shadow:none!important
 <div id="rulesText"></div></div></div>
 <script>
 let songs=[],map=new Map(),stream=null,scanning=false,detector=null,last='',current=null,gameMode='normal',currentChallenge='',motionReady=false,faceDownSince=0,latestGravityZ=null,scanFaceSign=null,spotifyController=null,spotifyApiReady=false,pendingSpotifyId='',festivalPlayers=[],festivalTurn=0,festivalRound=1,festivalEvent=null,festivalScored=false,festivalHeadliner=false,flipShownAt=0;
-let millionIndex=0,millionFans=0,millionCurrent=null,millionCorrect=-1,millionUsedSongs=new Set(),millionLocked=false;
+let millionIndex=0,millionFans=0,millionCurrent=null,millionCorrect=-1,millionUsedSongs=new Set(),millionLocked=false,millionLastQuestionType='';
 let millionHelps={fifty:false,audience:false,friend:false};
 const MILLION_LADDER=[1000,2500,5000,10000,25000,50000,100000,250000,500000,1000000];
 
@@ -322,33 +322,62 @@ function millionShuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){let j=Math.
 function millionUnique(vals){return [...new Set(vals.filter(v=>v!==undefined&&v!==null&&String(v).trim()!==''))]}
 function millionOtherSongs(s){return millionShuffle(songs.filter(x=>x!==s))}
 function millionMakeQuestion(s){
-  const pool=['year','decade','artist','title','pm4','pm2','pm3'];
-  const type=pool[Math.floor(Math.random()*pool.length)];
+  // Não repetir o mesmo tipo de pergunta duas vezes seguidas.
+  const pool=['year','decade','artist','title','pm4','beforeafter2000','artistSong'];
+  let choices=pool.filter(t=>t!==millionLastQuestionType);
+  let type=choices[Math.floor(Math.random()*choices.length)];
+  millionLastQuestionType=type;
+
   const y=parseInt(s.year,10), others=millionOtherSongs(s);
   let q='',cat='',correct='',wrong=[];
+
   if(type==='artist'){
     cat='NOME DA BANDA OU ARTISTA';q='Quem canta esta música?';correct=s.artist;
     wrong=millionUnique(others.map(x=>x.artist).filter(x=>x&&x!==correct)).slice(0,3);
+
   }else if(type==='title'){
     cat='NOME DA MÚSICA';q='Qual é o nome desta música?';correct=s.title;
     wrong=millionUnique(others.map(x=>x.title).filter(x=>x&&x!==correct)).slice(0,3);
+
   }else if(type==='decade'&&Number.isFinite(y)){
     cat='DÉCADA';q='Em que década foi lançada?';correct=Math.floor(y/10)*10+'s';
     let ds=[];for(let d=-30;d<=30;d+=10){if(d){let v=Math.floor((y+d)/10)*10+'s';if(v!==correct)ds.push(v)}}
     wrong=millionShuffle(millionUnique(ds)).slice(0,3);
-  }else if((type==='pm4'||type==='pm2'||type==='pm3')&&Number.isFinite(y)){
-    const n=type==='pm4'?4:type==='pm2'?2:3;cat='± '+n+' ANOS';q='Qual destes intervalos contém o ano de lançamento?';
-    correct=(y-n)+' — '+(y+n);
-    wrong=millionShuffle([y-n-12+' — '+(y-n-12+2*n),y+n+6+' — '+(y+n+6+2*n),y-n-24+' — '+(y-n-24+2*n),y+n+18+' — '+(y+n+18+2*n)]).slice(0,3);
+
+  }else if(type==='pm4'&&Number.isFinite(y)){
+    cat='± 4 ANOS';q='Qual destes intervalos contém o ano de lançamento?';
+    correct=(y-4)+' — '+(y+4);
+    wrong=millionShuffle([
+      (y-16)+' — '+(y-8),
+      (y+8)+' — '+(y+16),
+      (y-28)+' — '+(y-20),
+      (y+20)+' — '+(y+28)
+    ]).slice(0,3);
+
+  }else if(type==='beforeafter2000'&&Number.isFinite(y)){
+    cat='ANTES OU DEPOIS DOS 00s';q='Esta música foi lançada antes ou depois dos anos 00?';
+    correct=y<2000?'ANTES DOS 00s':(y>=2010?'DEPOIS DOS 00s':'NOS ANOS 00s');
+    // Mantemos 4 opções, com apenas uma correta.
+    const opts=['ANTES DOS 00s','NOS ANOS 00s','DEPOIS DOS 00s','NÃO SEI / PASSAR'];
+    wrong=opts.filter(x=>x!==correct).slice(0,3);
+
+  }else if(type==='artistSong'){
+    cat='MÚSICA DO ARTISTA';q='Qual destas músicas pertence a '+s.artist+'?';correct=s.title;
+    wrong=millionUnique(others.filter(x=>x.artist!==s.artist).map(x=>x.title).filter(x=>x&&x!==correct)).slice(0,3);
+
   }else{
     cat='ANO EXATO';q='Em que ano foi lançada?';correct=String(s.year||'');
     let ys=[];for(let d of [-9,-6,-4,-3,-2,2,3,4,6,9])if(Number.isFinite(y))ys.push(String(y+d));
     wrong=millionShuffle(millionUnique(ys)).slice(0,3);
   }
+
+  // Fallback seguro caso os dados não permitam 4 opções.
   if(!correct||wrong.length<3){
     cat='NOME DA BANDA OU ARTISTA';q='Quem canta esta música?';correct=s.artist;
     wrong=millionUnique(others.map(x=>x.artist).filter(x=>x&&x!==correct)).slice(0,3);
+    if(type!=='artist') millionLastQuestionType='artist';
   }
+
   let opts=millionShuffle([correct,...wrong.slice(0,3)]);
   return {cat,q,opts,correct:opts.indexOf(correct)};
 }
@@ -416,7 +445,7 @@ function millionWin(){
 }
 function startMillionaire(){
   if(!songs.length){$('millionMessage').textContent='A carregar a base de músicas…';setTimeout(startMillionaire,350);return}
-  millionIndex=0;millionFans=0;millionUsedSongs=new Set();millionLocked=false;millionHelps={fifty:false,audience:false,friend:false};
+  millionIndex=0;millionFans=0;millionUsedSongs=new Set();millionLocked=false;millionLastQuestionType='';millionHelps={fifty:false,audience:false,friend:false};
   ['million5050','millionAudience','millionFriend'].forEach(id=>$(id).classList.remove('used'));
   $('modeView').classList.add('hidden');$('millionView').classList.remove('hidden');setGameInProgress(true);millionNext();
 }

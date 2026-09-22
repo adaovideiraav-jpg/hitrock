@@ -26,7 +26,7 @@
 <div class="stage" id="festivalIntroStage"></div>
 <div class="objective"><span>OBJETIVO DESTA FASE</span><strong id="festivalIntroObjective"></strong><div id="festivalIntroHelp" class="hint"></div></div>
 <div class="buttons"><button class="primary" id="festivalReady">Estou pronto — ler carta</button></div>
-</div><div id="scanView" class="hidden"><div id="reader"><video id="video" playsinline muted></video><div class="frame"></div></div><div class="status" id="status">Aponta a câmara ao QR HIT ROCK</div><div class="buttons"><button class="primary" id="start">Ligar câmara</button></div><div class="manual"><input id="manual" placeholder="HR0001 ou 0001"><button class="secondary" id="go">OK</button></div></div><div id="gameView" class="hidden"><div class="result"><div class="cardno" id="cardno"></div><div id="challenge" class="challenge hidden"><span id="wheel" class="wheel">🎡</span><div class="label">DESAFIO</div><div class="value" id="challengeText"></div></div><div id="festivalBoard" class="festivalBoard hidden"><div id="currentPlayer" class="currentPlayer"></div><div class="festTop" id="festTurn"></div><div class="festStage" id="festStage"></div><div class="festEvent" id="festEvent"></div><div class="festScores" id="festScores" style="display:none!important"></div><div id="festActions" class="festActions hidden"><button class="success" id="festHit">✅ ACERTOU</button><button class="fail" id="festMiss">❌ FALHOU</button></div></div><div id="flipView" class="flipmsg"><span class="phone">📱</span><h2>Vira o telemóvel para baixo</h2><p>Mantém o ecrã para cima enquanto lês. Depois vira o telemóvel completamente, com o ecrã virado para baixo.</p><div class="turnprogress"><i id="turnbar"></i></div><div id="motionNote" class="hint"></div></div><div id="playingView" class="hidden"><div class="secret">🎸 A TOCAR</div><p>Adivinha antes de revelar.</p><div class="spotifybox" id="spotifybox"></div><div class="buttons"><button class="secondary" id="revealBtn">Revelar resposta</button></div><div class="reveal hidden" id="answer"><h2 id="title"></h2><div class="year" id="year"></div><div class="artist" id="artist"></div></div><div class="buttons"><button class="danger" id="next">Próxima carta</button></div></div></div></div></section></main><div class="signature">by Videira · v1.48</div>
+</div><div id="scanView" class="hidden"><div id="reader"><video id="video" playsinline muted></video><div class="frame"></div></div><div class="status" id="status">Aponta a câmara ao QR HIT ROCK</div><div class="buttons"><button class="primary" id="start">Ligar câmara</button></div><div class="manual"><input id="manual" placeholder="HR0001 ou 0001"><button class="secondary" id="go">OK</button></div></div><div id="gameView" class="hidden"><div class="result"><div class="cardno" id="cardno"></div><div id="challenge" class="challenge hidden"><span id="wheel" class="wheel">🎡</span><div class="label">DESAFIO</div><div class="value" id="challengeText"></div></div><div id="festivalBoard" class="festivalBoard hidden"><div id="currentPlayer" class="currentPlayer"></div><div class="festTop" id="festTurn"></div><div class="festStage" id="festStage"></div><div class="festEvent" id="festEvent"></div><div class="festScores" id="festScores" style="display:none!important"></div><div id="festActions" class="festActions hidden"><button class="success" id="festHit">✅ ACERTOU</button><button class="fail" id="festMiss">❌ FALHOU</button></div></div><div id="flipView" class="flipmsg"><span class="phone">📱</span><h2>Vira o telemóvel para baixo</h2><p>Mantém o ecrã para cima enquanto lês. Depois vira o telemóvel completamente, com o ecrã virado para baixo.</p><div class="turnprogress"><i id="turnbar"></i></div><div id="motionNote" class="hint"></div></div><div id="playingView" class="hidden"><div class="secret">🎸 A TOCAR</div><p>Adivinha antes de revelar.</p><div class="spotifybox" id="spotifybox"></div><div class="buttons"><button class="secondary" id="revealBtn">Revelar resposta</button></div><div class="reveal hidden" id="answer"><h2 id="title"></h2><div class="year" id="year"></div><div class="artist" id="artist"></div></div><div class="buttons"><button class="danger" id="next">Próxima carta</button></div></div></div></div></section></main><div class="signature">by Videira · v1.50</div>
 
 
 <button id="homeMenuBtn" aria-label="Voltar ao menu inicial"
@@ -115,10 +115,10 @@ function prepareSpotify(id){
       theme:'dark'
     },c=>{
       spotifyController=c;
-      // Se o telefone já foi virado enquanto o controller carregava,
-      // iniciar assim que o Spotify ficar pronto.
+      // Se o ecrã já foi virado enquanto o Spotify carregava,
+      // arrancar assim que o controller ficar disponível.
       if(current&&!$('playingView').classList.contains('hidden')){
-        try{if(c.play)c.play();else if(c.togglePlay)c.togglePlay()}catch(e){}
+        forceSpotifyPlay();
       }
     });
   }else{
@@ -292,6 +292,34 @@ function onMotion(e){
   faceDownCheck(a.z,a.x||0,a.y||0);
 }
 function onOrientation(e){}
+function forceSpotifyPlay(){
+  if(!current)return;
+  const id=spotifyId(current);
+  if(!id)return;
+
+  // O controller pode ainda estar a terminar de carregar quando o sensor dispara.
+  // Fazer várias tentativas curtas evita ficar parado no botão Play.
+  const attempt=()=>{
+    try{
+      if(spotifyController&&typeof spotifyController.play==='function'){
+        const p=spotifyController.play();
+        if(p&&typeof p.catch==='function')p.catch(()=>{});
+        return true;
+      }
+      if(spotifyController&&typeof spotifyController.togglePlay==='function'){
+        spotifyController.togglePlay();
+        return true;
+      }
+    }catch(e){}
+    return false;
+  };
+
+  attempt();
+  [120,300,650,1100].forEach(ms=>setTimeout(()=>{
+    if(current&&!$('playingView').classList.contains('hidden'))attempt();
+  },ms));
+}
+
 function playCurrentSpotify(){
   if(!current)return;
   const id=spotifyId(current);
@@ -300,17 +328,14 @@ function playCurrentSpotify(){
     return;
   }
 
-  try{
-    if(spotifyController&&typeof spotifyController.play==='function'){
-      const p=spotifyController.play();
-      if(p&&typeof p.catch==='function')p.catch(()=>showSpotifyFallback(id));
-    }else if(spotifyController&&typeof spotifyController.togglePlay==='function'){
-      spotifyController.togglePlay();
-    }else{
-      showSpotifyFallback(id);
-    }
-  }catch(e){
-    showSpotifyFallback(id);
+  if(spotifyController){
+    forceSpotifyPlay();
+  }else{
+    // Se o controller ainda não existe, reconstruí-lo e o callback acima
+    // inicia automaticamente quando ficar pronto.
+    prepareSpotify(id);
+    setTimeout(forceSpotifyPlay,250);
+    setTimeout(forceSpotifyPlay,700);
   }
 }
 function beginPlayback(){

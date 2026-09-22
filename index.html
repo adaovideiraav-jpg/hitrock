@@ -43,13 +43,57 @@ border:none!important;outline:none!important;box-shadow:none!important
 #rulesModal{display:none;position:fixed;inset:0;z-index:22000;background:rgba(0,0,0,.72);align-items:center;justify-content:center;padding:22px}
 #rulesCard{width:min(430px,100%);max-height:82vh;overflow:auto;background:#202020;border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:20px;box-shadow:0 12px 38px rgba(0,0,0,.6)}
 #rulesCard h2{margin:0 0 12px} #rulesText{line-height:1.5}
-</style></head><body><main class="app"><header><div class="logo">HIT ROCK</div><div class="sub">scan • listen • guess</div></header><section class="panel"><div id="modeView" class="modeview"><h2>Escolhe o modo</h2><p>Como queres jogar?</p><div class="modegrid"><div class="modeWithInfo"><button class="secondary modebtn" data-mode="normal">🎵 NORMAL<small>Modo clássico HIT ROCK</small></button><button type="button" class="modeInfoBtn" data-info-mode="normal" aria-label="Regras">ⓘ</button></div><div class="modeWithInfo"><button class="secondary modebtn" data-mode="roulette">🎡 ROLETA<small>Década · ±4 · ±2 · Banda/Solo · Ano exato</small></button><button type="button" class="modeInfoBtn" data-info-mode="roulette" aria-label="Regras">ⓘ</button></div><div class="modeWithInfo"><button class="secondary modebtn" data-mode="expert">🔥 EXPERT<small>Ano · Década · Artista · Música · ±3</small></button><button type="button" class="modeInfoBtn" data-info-mode="expert" aria-label="Regras">ⓘ</button></div><div class="modeWithInfo"><button class="secondary modebtn" data-mode="festival">🎪 FESTIVAL<small>Ganha fãs · sobe de palco · torna-te Headliner</small></button><button type="button" class="modeInfoBtn" data-info-mode="festival" aria-label="Regras">ⓘ</button></div></div><div id="festivalSetup" class="festivalSetup hidden"><h3>🎪 Criar Festival</h3><p>2 a 8 bandas/jogadores</p><div id="festivalNames"></div><div class="buttons"><button class="primary" id="festivalStart">Começar Festival</button></div></div></div><div id="festivalIntro" class="festivalIntro hidden">
+</style>
+<style>
+.millionView{margin-top:10px}
+.millionTop{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.millionFans{font-weight:1000;font-size:20px}
+.millionStep{font-size:13px;opacity:.75}
+.millionQuestion{padding:16px;border-radius:18px;background:#ffffff0d;border:1px solid #ffffff22;margin:12px 0}
+.millionCategory{font-size:12px;font-weight:900;opacity:.72;letter-spacing:.08em}
+.millionQuestion h2{margin:8px 0 2px}
+.millionAnswers{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+.millionAnswer{min-height:62px;text-align:left}
+.millionAnswer.correct{background:#2e7d32!important;color:#fff!important}
+.millionAnswer.wrong{background:#c62828!important;color:#fff!important}
+.millionAnswer.dim{opacity:.22;pointer-events:none}
+.millionHelp{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:12px 0}
+.millionHelp button{padding:10px 6px;font-size:12px}
+.millionHelp button.used{opacity:.3;text-decoration:line-through;pointer-events:none}
+.millionMessage{margin-top:12px;font-weight:900;min-height:24px}
+.millionLadder{display:grid;gap:3px;margin-top:14px;font-size:12px}
+.millionLadder div{display:flex;justify-content:space-between;padding:5px 8px;border-radius:8px;opacity:.48}
+.millionLadder div.active{background:#ffffff18;opacity:1;font-weight:1000}
+.millionLadder div.done{opacity:.8}
+@media(max-width:520px){.millionAnswers{grid-template-columns:1fr}.millionHelp{grid-template-columns:1fr 1fr 1fr}}
+</style>
+</head><body><main class="app"><header><div class="logo">HIT ROCK</div><div class="sub">scan • listen • guess</div></header><section class="panel"><div id="modeView" class="modeview"><h2>Escolhe o modo</h2><p>Como queres jogar?</p><div class="modegrid"><div class="modeWithInfo"><button class="secondary modebtn" data-mode="normal">🎵 NORMAL<small>Modo clássico HIT ROCK</small></button><button type="button" class="modeInfoBtn" data-info-mode="normal" aria-label="Regras">ⓘ</button></div><div class="modeWithInfo"><button class="secondary modebtn" data-mode="roulette">🎡 ROLETA<small>Década · ±4 · ±2 · Banda/Solo · Ano exato</small></button><button type="button" class="modeInfoBtn" data-info-mode="roulette" aria-label="Regras">ⓘ</button></div><div class="modeWithInfo"><button class="secondary modebtn" data-mode="expert">🔥 EXPERT<small>Ano · Década · Artista · Música · ±3</small></button><button type="button" class="modeInfoBtn" data-info-mode="expert" aria-label="Regras">ⓘ</button></div><div class="modeWithInfo"><button class="secondary modebtn" data-mode="festival">🎪 FESTIVAL<small>Ganha fãs · sobe de palco · torna-te Headliner</small></button><button type="button" class="modeInfoBtn" data-info-mode="festival" aria-label="Regras">ⓘ</button></div><div class="modeWithInfo"><button class="secondary modebtn" data-mode="millionaire">🥾🔥 MILIONÁRIO<small>Solo · chega a 1.000.000 de fãs sem falhar</small></button><button type="button" class="modeInfoBtn" data-info-mode="millionaire" aria-label="Regras">ⓘ</button></div></div><div id="festivalSetup" class="festivalSetup hidden"><h3>🎪 Criar Festival</h3><p>2 a 8 bandas/jogadores</p><div id="festivalNames"></div><div class="buttons"><button class="primary" id="festivalStart">Começar Festival</button></div></div></div>
+<div id="millionView" class="millionView hidden">
+  <div class="millionTop">
+    <div><div class="millionStep" id="millionStep">PERGUNTA 1 DE 10</div><div class="millionFans" id="millionFans">👥 0 FÃS</div></div>
+    <div style="font-size:28px">🥾🔥</div>
+  </div>
+  <div class="millionHelp">
+    <button id="million5050">50/50</button>
+    <button id="millionAudience">👥 PÚBLICO</button>
+    <button id="millionFriend">📞 AMIGO</button>
+  </div>
+  <div class="spotifybox" id="millionSpotify"></div>
+  <div class="millionQuestion">
+    <div class="millionCategory" id="millionCategory"></div>
+    <h2 id="millionQuestion"></h2>
+    <div class="millionAnswers" id="millionAnswers"></div>
+    <div class="millionMessage" id="millionMessage"></div>
+  </div>
+  <div class="millionLadder" id="millionLadder"></div>
+</div>
+<div id="festivalIntro" class="festivalIntro hidden">
 <div class="who">AGORA JOGA</div>
 <div class="player" id="festivalIntroPlayer"></div>
 <div class="stage" id="festivalIntroStage"></div>
 <div class="objective"><span>OBJETIVO DESTA FASE</span><strong id="festivalIntroObjective"></strong><div id="festivalIntroHelp" class="hint"></div></div>
 <div class="buttons"><button class="primary" id="festivalReady">Estou pronto — ler carta</button></div>
-</div><div id="scanView" class="hidden"><div id="reader"><video id="video" playsinline muted></video><div class="frame"></div></div><div class="status" id="status">Aponta a câmara ao QR HIT ROCK</div><div class="buttons"><button class="primary" id="start">Ligar câmara</button></div><div class="manual"><input id="manual" placeholder="HR0001 ou 0001"><button class="secondary" id="go">OK</button></div></div><div id="gameView" class="hidden"><div class="result"><div class="cardno" id="cardno"></div><div id="challenge" class="challenge hidden"><span id="wheel" class="wheel">🎡</span><div class="label">DESAFIO</div><div class="value" id="challengeText"></div></div><div id="festivalBoard" class="festivalBoard hidden"><div id="currentPlayer" class="currentPlayer"></div><div class="festTop" id="festTurn"></div><div class="festStage" id="festStage"></div><div class="festEvent" id="festEvent"></div><div class="festScores" id="festScores" style="display:none!important"></div><div id="festActions" class="festActions hidden"><button class="success" id="festHit">✅ ACERTOU</button><button class="fail" id="festMiss">❌ FALHOU</button></div></div><div id="flipView" class="flipmsg"><span class="phone">📱</span><h2>Vira o telemóvel para baixo</h2><p>Mantém o ecrã para cima enquanto lês. Depois vira o telemóvel completamente, com o ecrã virado para baixo.</p><div class="turnprogress"><i id="turnbar"></i></div><div id="motionNote" class="hint"></div></div><div id="playingView" class="hidden"><div class="secret">🎸 A TOCAR</div><p>Adivinha antes de revelar.</p><div class="spotifybox" id="spotifybox"></div><div class="buttons"><button class="secondary" id="revealBtn">Revelar resposta</button></div><div class="reveal hidden" id="answer"><h2 id="title"></h2><div class="year" id="year"></div><div class="artist" id="artist"></div></div><div class="buttons"><button class="danger" id="next">Próxima carta</button></div></div></div></div></section></main><div class="signature">by Videira · v1.53</div>
+</div><div id="scanView" class="hidden"><div id="reader"><video id="video" playsinline muted></video><div class="frame"></div></div><div class="status" id="status">Aponta a câmara ao QR HIT ROCK</div><div class="buttons"><button class="primary" id="start">Ligar câmara</button></div><div class="manual"><input id="manual" placeholder="HR0001 ou 0001"><button class="secondary" id="go">OK</button></div></div><div id="gameView" class="hidden"><div class="result"><div class="cardno" id="cardno"></div><div id="challenge" class="challenge hidden"><span id="wheel" class="wheel">🎡</span><div class="label">DESAFIO</div><div class="value" id="challengeText"></div></div><div id="festivalBoard" class="festivalBoard hidden"><div id="currentPlayer" class="currentPlayer"></div><div class="festTop" id="festTurn"></div><div class="festStage" id="festStage"></div><div class="festEvent" id="festEvent"></div><div class="festScores" id="festScores" style="display:none!important"></div><div id="festActions" class="festActions hidden"><button class="success" id="festHit">✅ ACERTOU</button><button class="fail" id="festMiss">❌ FALHOU</button></div></div><div id="flipView" class="flipmsg"><span class="phone">📱</span><h2>Vira o telemóvel para baixo</h2><p>Mantém o ecrã para cima enquanto lês. Depois vira o telemóvel completamente, com o ecrã virado para baixo.</p><div class="turnprogress"><i id="turnbar"></i></div><div id="motionNote" class="hint"></div></div><div id="playingView" class="hidden"><div class="secret">🎸 A TOCAR</div><p>Adivinha antes de revelar.</p><div class="spotifybox" id="spotifybox"></div><div class="buttons"><button class="secondary" id="revealBtn">Revelar resposta</button></div><div class="reveal hidden" id="answer"><h2 id="title"></h2><div class="year" id="year"></div><div class="artist" id="artist"></div></div><div class="buttons"><button class="danger" id="next">Próxima carta</button></div></div></div></div></section></main><div class="signature">by Videira · v1.54</div>
 
 
 <button id="homeMenuBtn" aria-label="Voltar ao menu inicial"
@@ -85,6 +129,10 @@ border:none!important;outline:none!important;box-shadow:none!important
 <div id="rulesText"></div></div></div>
 <script>
 let songs=[],map=new Map(),stream=null,scanning=false,detector=null,last='',current=null,gameMode='normal',currentChallenge='',motionReady=false,faceDownSince=0,latestGravityZ=null,scanFaceSign=null,spotifyController=null,spotifyApiReady=false,pendingSpotifyId='',festivalPlayers=[],festivalTurn=0,festivalRound=1,festivalEvent=null,festivalScored=false,festivalHeadliner=false,flipShownAt=0;
+let millionIndex=0,millionFans=0,millionCurrent=null,millionCorrect=-1,millionUsedSongs=new Set(),millionLocked=false;
+let millionHelps={fifty:false,audience:false,friend:false};
+const MILLION_LADDER=[1000,2500,5000,10000,25000,50000,100000,250000,500000,1000000];
+
 let hitrockGameInProgress=false;
 let hitrockLeaving=false;
 function setGameInProgress(v){
@@ -252,11 +300,131 @@ function renderFestival(){
 function scoreFestival(ok){
   setTimeout(updateFestivalStandingsButton,0);
   setTimeout(updateFestivalStandingsButton,0);if(festivalScored)return;festivalScored=true;let p=festivalPlayers[festivalTurn];if(festivalHeadliner&&ok){alert('👑 '+p.name+' É O HIT ROCK HEADLINER! 👑');$('festActions').classList.add('hidden');return}let gain=currentChallenge==='DÉCADA'?1000:currentChallenge==='± 4 ANOS'?2000:currentChallenge==='± 2 ANOS'?5000:currentChallenge==='ARTISTA + MÚSICA'?8000:10000;if(festivalEvent&&festivalEvent[1]==='double')gain*=2;if(festivalEvent&&festivalEvent[1]==='allin')gain*=2;if(ok){p.fans+=gain;p.streak++;if(festivalEvent&&festivalEvent[1]==='steal'){let rivals=festivalPlayers.filter(x=>x!==p).sort((a,b)=>b.fans-a.fans);if(rivals[0]){let n=Math.min(3000,rivals[0].fans);rivals[0].fans-=n;p.fans+=n}}}else{p.streak=0}renderFestival();let rr=$('roundResult');rr.textContent=ok?'✅ ACERTOU! +'+gain.toLocaleString('pt-PT')+' fãs':'❌ FALHOU!';rr.classList.remove('hidden','ok','no');rr.classList.add(ok?'ok':'no');$('festActions').classList.add('hidden')}
+
+function millionShuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function millionUnique(vals){return [...new Set(vals.filter(v=>v!==undefined&&v!==null&&String(v).trim()!==''))]}
+function millionOtherSongs(s){return millionShuffle(songs.filter(x=>x!==s))}
+function millionMakeQuestion(s){
+  const pool=['year','decade','artist','title','pm4','pm2','pm3'];
+  const type=pool[Math.floor(Math.random()*pool.length)];
+  const y=parseInt(s.year,10), others=millionOtherSongs(s);
+  let q='',cat='',correct='',wrong=[];
+  if(type==='artist'){
+    cat='NOME DA BANDA OU ARTISTA';q='Quem canta esta música?';correct=s.artist;
+    wrong=millionUnique(others.map(x=>x.artist).filter(x=>x&&x!==correct)).slice(0,3);
+  }else if(type==='title'){
+    cat='NOME DA MÚSICA';q='Qual é o nome desta música?';correct=s.title;
+    wrong=millionUnique(others.map(x=>x.title).filter(x=>x&&x!==correct)).slice(0,3);
+  }else if(type==='decade'&&Number.isFinite(y)){
+    cat='DÉCADA';q='Em que década foi lançada?';correct=Math.floor(y/10)*10+'s';
+    let ds=[];for(let d=-30;d<=30;d+=10){if(d){let v=Math.floor((y+d)/10)*10+'s';if(v!==correct)ds.push(v)}}
+    wrong=millionShuffle(millionUnique(ds)).slice(0,3);
+  }else if((type==='pm4'||type==='pm2'||type==='pm3')&&Number.isFinite(y)){
+    const n=type==='pm4'?4:type==='pm2'?2:3;cat='± '+n+' ANOS';q='Qual destes intervalos contém o ano de lançamento?';
+    correct=(y-n)+' — '+(y+n);
+    wrong=millionShuffle([y-n-12+' — '+(y-n-12+2*n),y+n+6+' — '+(y+n+6+2*n),y-n-24+' — '+(y-n-24+2*n),y+n+18+' — '+(y+n+18+2*n)]).slice(0,3);
+  }else{
+    cat='ANO EXATO';q='Em que ano foi lançada?';correct=String(s.year||'');
+    let ys=[];for(let d of [-9,-6,-4,-3,-2,2,3,4,6,9])if(Number.isFinite(y))ys.push(String(y+d));
+    wrong=millionShuffle(millionUnique(ys)).slice(0,3);
+  }
+  if(!correct||wrong.length<3){
+    cat='NOME DA BANDA OU ARTISTA';q='Quem canta esta música?';correct=s.artist;
+    wrong=millionUnique(others.map(x=>x.artist).filter(x=>x&&x!==correct)).slice(0,3);
+  }
+  let opts=millionShuffle([correct,...wrong.slice(0,3)]);
+  return {cat,q,opts,correct:opts.indexOf(correct)};
+}
+function millionRenderLadder(){
+  $('millionLadder').innerHTML=MILLION_LADDER.slice().reverse().map((v,ri)=>{
+    const i=MILLION_LADDER.length-1-ri;
+    return '<div class="'+(i===millionIndex?'active':i<millionIndex?'done':'')+'"><span>'+(i===9?'🏆 ':'')+(i+1)+'.</span><strong>'+v.toLocaleString('pt-PT')+' 👥</strong></div>';
+  }).join('');
+}
+function millionPrepareSpotify(s){
+  const id=spotifyId(s),box=$('millionSpotify');box.innerHTML='';
+  spotifyController=null;pendingSpotifyId='';
+  if(!id){box.innerHTML='<div class="hint">⚠️ Música sem Spotify associado.</div>';return}
+  if(spotifyApiReady&&window._spotifyIFrameAPI){
+    let el=document.createElement('div');el.id='millionSpotifyMount';box.appendChild(el);
+    window._spotifyIFrameAPI.createController(el,{uri:'spotify:track:'+id,width:'100%',height:152,theme:'dark'},c=>{
+      spotifyController=c;
+      try{if(c.play)c.play();else if(c.togglePlay)c.togglePlay()}catch(e){}
+      [180,450,900].forEach(ms=>setTimeout(()=>{try{if(c.play)c.play()}catch(e){}},ms));
+    });
+  }else{
+    box.innerHTML='<iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="eager" src="https://open.spotify.com/embed/track/'+id+'?utm_source=generator&theme=0&autoplay=1"></iframe>';
+  }
+}
+function millionNext(){
+  if(millionIndex>=MILLION_LADDER.length){millionWin();return}
+  const available=songs.filter(s=>spotifyId(s)&&!millionUsedSongs.has(String(s.id||s.n))&&s.title&&s.artist);
+  if(!available.length){$('millionMessage').textContent='Não existem mais músicas disponíveis nesta partida.';return}
+  millionCurrent=available[Math.floor(Math.random()*available.length)];
+  millionUsedSongs.add(String(millionCurrent.id||millionCurrent.n));
+  const mq=millionMakeQuestion(millionCurrent);millionCorrect=mq.correct;millionLocked=false;
+  $('millionStep').textContent='PERGUNTA '+(millionIndex+1)+' DE '+MILLION_LADDER.length;
+  $('millionFans').textContent='👥 '+millionFans.toLocaleString('pt-PT')+' FÃS';
+  $('millionCategory').textContent='DESAFIO · '+mq.cat;
+  $('millionQuestion').textContent=mq.q;$('millionMessage').textContent='';
+  $('millionAnswers').innerHTML=mq.opts.map((o,i)=>'<button class="millionAnswer" data-million-answer="'+i+'"><strong>'+String.fromCharCode(65+i)+')</strong> '+String(o)+'</button>').join('');
+  document.querySelectorAll('[data-million-answer]').forEach(b=>b.onclick=()=>millionAnswer(Number(b.dataset.millionAnswer)));
+  millionRenderLadder();millionPrepareSpotify(millionCurrent);
+}
+function millionAnswer(i){
+  if(millionLocked)return;millionLocked=true;
+  const bs=[...document.querySelectorAll('[data-million-answer]')];
+  bs[millionCorrect]?.classList.add('correct');
+  if(i!==millionCorrect){bs[i]?.classList.add('wrong');$('millionMessage').innerHTML='💀 <strong>FIM DE JOGO</strong> — perdeste a partida.';setTimeout(millionGameOver,1300);return}
+  millionFans=MILLION_LADDER[millionIndex];$('millionFans').textContent='👥 '+millionFans.toLocaleString('pt-PT')+' FÃS';
+  $('millionMessage').textContent='✅ CERTO! + fãs';
+  millionIndex++;
+  setTimeout(()=>{if(millionIndex>=MILLION_LADDER.length)millionWin();else millionNext()},1200);
+}
+function millionGameOver(){
+  const best=millionFans;
+  $('millionQuestion').textContent='💀 FIM DE JOGO';
+  $('millionCategory').textContent='A tua caminhada terminou';
+  $('millionAnswers').innerHTML='<button class="primary" id="millionRestart">🔄 JOGAR NOVAMENTE</button>';
+  $('millionMessage').textContent='Chegaste aos '+best.toLocaleString('pt-PT')+' fãs.';
+  $('millionRestart').onclick=startMillionaire;
+}
+function millionWin(){
+  millionFans=1000000;$('millionFans').textContent='👥 1.000.000 FÃS';
+  $('millionCategory').textContent='🏆 MISSÃO CUMPRIDA';
+  $('millionQuestion').textContent='🔥 ÉS MILIONÁRIO EM FÃS!';
+  $('millionAnswers').innerHTML='<button class="primary" id="millionRestart">🔄 JOGAR NOVAMENTE</button>';
+  $('millionMessage').textContent='Conquistaste 1.000.000 de fãs sem falhar!';
+  $('millionRestart').onclick=startMillionaire;millionRenderLadder();
+}
+function startMillionaire(){
+  if(!songs.length){$('millionMessage').textContent='A carregar a base de músicas…';setTimeout(startMillionaire,350);return}
+  millionIndex=0;millionFans=0;millionUsedSongs=new Set();millionLocked=false;millionHelps={fifty:false,audience:false,friend:false};
+  ['million5050','millionAudience','millionFriend'].forEach(id=>$(id).classList.remove('used'));
+  $('modeView').classList.add('hidden');$('millionView').classList.remove('hidden');setGameInProgress(true);millionNext();
+}
+function million5050(){
+  if(millionHelps.fifty||millionLocked)return;millionHelps.fifty=true;$('million5050').classList.add('used');
+  const wrong=millionShuffle([0,1,2,3].filter(i=>i!==millionCorrect)).slice(0,2);
+  wrong.forEach(i=>document.querySelector('[data-million-answer="'+i+'"]')?.classList.add('dim'));
+}
+function millionAudience(){
+  if(millionHelps.audience||millionLocked)return;millionHelps.audience=true;$('millionAudience').classList.add('used');
+  let correctPct=55+Math.floor(Math.random()*26),remain=100-correctPct,vals=[0,0,0,0];vals[millionCorrect]=correctPct;
+  let wrong=[0,1,2,3].filter(i=>i!==millionCorrect),a=Math.floor(Math.random()*(remain+1)),b=Math.floor(Math.random()*(remain-a+1));vals[wrong[0]]=a;vals[wrong[1]]=b;vals[wrong[2]]=remain-a-b;
+  $('millionMessage').textContent='👥 Público: '+vals.map((v,i)=>String.fromCharCode(65+i)+' '+v+'%').join(' · ');
+}
+function millionFriend(){
+  if(millionHelps.friend||millionLocked)return;millionHelps.friend=true;$('millionFriend').classList.add('used');
+  const confidence=['quase de certeza','acho mesmo','estou bastante confiante'];
+  $('millionMessage').textContent='📞 Amigo: “'+confidence[Math.floor(Math.random()*confidence.length)]+' que é a opção '+String.fromCharCode(65+millionCorrect)+'.”';
+}
+
 function chooseMode(m){
   gameMode=m;
   const homeBtn=$('homeMenuBtn');
   if(homeBtn)homeBtn.style.display='block';
-  if(m==='festival'){festivalSetup();return}$('modeView').classList.add('hidden');$('scanView').classList.remove('hidden');$('status').textContent=m==='normal'?'Modo Normal — aponta a câmara ao QR':m==='roulette'?'Modo Roleta — aponta a câmara ao QR':'Modo Expert — aponta a câmara ao QR'}
+  if(m==='festival'){festivalSetup();return}if(m==='millionaire'){startMillionaire();return}$('modeView').classList.add('hidden');$('scanView').classList.remove('hidden');$('status').textContent=m==='normal'?'Modo Normal — aponta a câmara ao QR':m==='roulette'?'Modo Roleta — aponta a câmara ao QR':'Modo Expert — aponta a câmara ao QR'}
 function load(raw){
   // Limpar imediatamente a resposta anterior. A carta atual só é escrita ao revelar.
   $('title').textContent='••••••••';
@@ -390,7 +558,7 @@ function showSpotifyFallback(id){
 async function start(){try{await enableMotion();if(!('BarcodeDetector'in window)){$('status').textContent='Este browser não suporta leitura automática. Usa o campo de código abaixo.';return}detector=new BarcodeDetector({formats:['qr_code']});stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}}});$('video').srcObject=stream;await $('video').play();scanning=true;$('start').classList.add('hidden');$('status').textContent='À procura do QR…';tick()}catch(e){$('status').textContent='Não foi possível usar a câmara. Podes introduzir o código manualmente.'}}
 async function tick(){if(!scanning)return;try{let codes=await detector.detect($('video'));if(codes.length&&codes[0].rawValue!==last){last=codes[0].rawValue;load(last);return}}catch(e){}requestAnimationFrame(tick)}
 function stop(){scanning=false;if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}$('video').srcObject=null}
-document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>chooseMode(b.dataset.mode));$('start').onclick=start;$('go').onclick=async()=>{await enableMotion();load($('manual').value)};$('manual').onkeydown=async e=>{if(e.key==='Enter'){await enableMotion();load(e.target.value)}};$('flipView').onclick=async()=>{let ok=await enableMotion();$('motionNote').textContent=ok?'Sensor ativo — vira o ecrã para baixo.':'Sensor de movimento indisponível.'};$('revealBtn').onclick=()=>{
+document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>chooseMode(b.dataset.mode));$('million5050').onclick=million5050;$('millionAudience').onclick=millionAudience;$('millionFriend').onclick=millionFriend;$('start').onclick=start;$('go').onclick=async()=>{await enableMotion();load($('manual').value)};$('manual').onkeydown=async e=>{if(e.key==='Enter'){await enableMotion();load(e.target.value)}};$('flipView').onclick=async()=>{let ok=await enableMotion();$('motionNote').textContent=ok?'Sensor ativo — vira o ecrã para baixo.':'Sensor de movimento indisponível.'};$('revealBtn').onclick=()=>{
   if(!current)return;
   $('title').textContent=current.title||current.name||'—';
   $('artist').textContent=current.artist||current.band||'—';
@@ -437,7 +605,7 @@ function goHomeMenu(confirmed){
   if(typeof setGameInProgress==='function')setGameInProgress(false);
 
   // Hide all content left from the previous selection/game.
-  ['scanView','gameView','flipView','playingView','festivalIntro','festivalBoard','festivalSetup','challenge','festActions'].forEach(id=>{
+  ['scanView','gameView','flipView','playingView','festivalIntro','festivalBoard','festivalSetup','challenge','festActions','millionView'].forEach(id=>{
     const el=$(id);
     if(el)el.classList.add('hidden');
   });
@@ -515,6 +683,7 @@ const HITROCK_RULES={
 normal:{title:'🎵 MODO NORMAL — Como jogar',html:'<p><strong>Objetivo:</strong> ouvir a música e responder ao desafio apresentado.</p><p>1. Lê o QR da carta.<br>2. Vira o telemóvel com o ecrã para baixo para iniciar a música.<br>3. Dá a tua resposta.<br>4. Carrega em <strong>Revelar resposta</strong> para confirmar.</p>'},
 roulette:{title:'🎡 MODO ROLETA — Como jogar',html:'<p><strong>Objetivo:</strong> responder ao desafio sorteado para cada música.</p><p>Cada ronda apresenta uma categoria/desafio. Lê o QR, vira o telemóvel para baixo, ouve a música e responde ao que aparece no ecrã. Depois usa <strong>Revelar resposta</strong>.</p>'},
 expert:{title:'🔥 MODO EXPERT — Como jogar',html:'<p><strong>Objetivo:</strong> enfrentar os desafios mais exigentes do HIT ROCK.</p><p>O ecrã indica o que tens de identificar. Lê o QR, vira o telemóvel para baixo, ouve e responde antes de carregares em <strong>Revelar resposta</strong>.</p>'},
+millionaire:{title:'🥾🔥 MILIONÁRIO — Como jogar',html:'<p><strong>Objetivo:</strong> jogar sozinho e chegar a <strong>1.000.000 de fãs</strong> sem falhar.</p><p>A app escolhe músicas diretamente da base de dados e apresenta perguntas inspiradas nos desafios da Roleta e Expert. Cada pergunta tem <strong>4 opções</strong> e apenas uma está correta.</p><p><strong>Acertaste:</strong> ganhas fãs e sobes para a pergunta seguinte.<br><strong>Erraste:</strong> 💀 a partida termina e tens de começar novamente do zero.</p><p>Tens três ajudas, uma vez por partida: <strong>50/50</strong>, <strong>👥 Público</strong> e <strong>📞 Amigo</strong>.</p>'},
 festival:{title:'🎪 MODO FESTIVAL — Como jogar',html:'<p><strong>Objetivo:</strong> conquistar fãs e subir na classificação.</p><p>Jogam até 8 jogadores. Em cada turno aparece quem joga, a fase e o objetivo. Lê a carta, vira o telemóvel para baixo e responde.</p><p>Depois de revelar, marca <strong>ACERTOU</strong> ou <strong>FALHOU</strong>. Ao acertar ganhas fãs; ao falhar manténs os fãs atuais. O botão 🏆 mostra a classificação por ordem de fãs.</p>'}
 };
 function openRules(mode,e){if(e){e.preventDefault();e.stopPropagation()}const r=HITROCK_RULES[mode];if(!r)return;$('rulesTitle').textContent=r.title;$('rulesText').innerHTML=r.html;$('rulesModal').style.display='flex'}

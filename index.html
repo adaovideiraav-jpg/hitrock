@@ -788,5 +788,5 @@ function quizFinishRound(){if(!quizHost||!quizCurrent||quizCurrent.done)return;q
 function quizShowResults(m,end=false){clearInterval(quizTimerId);$('quizGame').classList.add('hidden');$('quizLobby').classList.add('hidden');$('quizResults').classList.remove('hidden');$('quizResultTitle').textContent=end?'🏆 RESULTADO FINAL':'RESPOSTA · '+(m.correctText||'');$('quizScores').innerHTML=(m.players||[]).map((p,i)=>'<div class="quizPlayer"><span>'+(i===0?'🏆 ':'')+quizEsc(p.name)+(p.gain?' <small>+'+p.gain+'</small>':'')+'</span><strong>'+p.score+' pts</strong></div>').join('');$('quizNext').classList.toggle('hidden',!quizHost||end);}
 $('quizCreate').onclick=quizCreateRoom;$('quizJoinShow').onclick=()=>{$('quizJoinBox').classList.toggle('hidden')};$('quizJoin').onclick=quizJoinRoom;$('quizStartGame').onclick=quizStart;$('quizNext').onclick=quizNextRound;
 
-window.addEventListener('beforeunload',stop);if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');
+window.addEventListener('beforeunload',stop);if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js?v=1.63',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{});
 </script></body></html>

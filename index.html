@@ -159,7 +159,7 @@ border:none!important;outline:none!important;box-shadow:none!important
 </div>
 <div class="objective"><span>OBJETIVO DESTA FASE</span><strong id="festivalIntroObjective"></strong><div id="festivalIntroHelp" class="hint"></div></div>
 <div class="buttons"><button class="primary" id="festivalReady">Estou pronto — ler carta</button></div>
-</div><div id="scanView" class="hidden"><div id="reader"><video id="video" playsinline muted></video><div class="frame"></div></div><div class="status" id="status">Aponta a câmara ao QR HIT ROCK</div><div class="buttons"><button class="primary" id="start">Ligar câmara</button></div><div class="manual"><input id="manual" placeholder="HR0001 ou 0001"><button class="secondary" id="go">OK</button></div></div><div id="gameView" class="hidden"><div class="result"><div class="cardno" id="cardno"></div><div id="challenge" class="challenge hidden"><span id="wheel" class="wheel">🎡</span><div class="label">DESAFIO</div><div class="value" id="challengeText"></div></div><div id="festivalBoard" class="festivalBoard hidden"><div id="currentPlayer" class="currentPlayer"></div><div class="festTop" id="festTurn"></div><div class="festStage" id="festStage"></div><div class="festEvent" id="festEvent"></div><div class="festScores" id="festScores" style="display:none!important"></div><div id="festActions" class="festActions hidden"><button class="success" id="festHit">✅ ACERTOU</button><button class="fail" id="festMiss">❌ FALHOU</button></div></div><div id="flipView" class="flipmsg"><span class="phone">📱</span><h2>Vira o telemóvel para baixo</h2><p>Mantém o ecrã para cima enquanto lês. Depois vira o telemóvel completamente, com o ecrã virado para baixo.</p><div class="turnprogress"><i id="turnbar"></i></div><div id="motionNote" class="hint"></div></div><div id="playingView" class="hidden"><div class="secret">🎸 A TOCAR</div><p>Adivinha antes de revelar.</p><div class="spotifybox" id="spotifybox"></div><div class="buttons"><button class="secondary" id="revealBtn">Revelar resposta</button></div><div class="reveal hidden" id="answer"><h2 id="title"></h2><div class="year" id="year"></div><div class="artist" id="artist"></div></div><div class="buttons"><button class="danger" id="next">Próxima carta</button></div></div></div></div></section></main><div class="signature">by Videira · v1.71</div>
+</div><div id="scanView" class="hidden"><div id="reader"><video id="video" playsinline muted></video><div class="frame"></div></div><div class="status" id="status">Aponta a câmara ao QR HIT ROCK</div><div class="buttons"><button class="primary" id="start">Ligar câmara</button></div><div class="manual"><input id="manual" placeholder="HR0001 ou 0001"><button class="secondary" id="go">OK</button></div></div><div id="gameView" class="hidden"><div class="result"><div class="cardno" id="cardno"></div><div id="challenge" class="challenge hidden"><span id="wheel" class="wheel">🎡</span><div class="label">DESAFIO</div><div class="value" id="challengeText"></div></div><div id="festivalBoard" class="festivalBoard hidden"><div id="currentPlayer" class="currentPlayer"></div><div class="festTop" id="festTurn"></div><div class="festStage" id="festStage"></div><div class="festEvent" id="festEvent"></div><div class="festScores" id="festScores" style="display:none!important"></div><div id="festActions" class="festActions hidden"><button class="success" id="festHit">✅ ACERTOU</button><button class="fail" id="festMiss">❌ FALHOU</button></div></div><div id="flipView" class="flipmsg"><span class="phone">📱</span><h2>Vira o telemóvel para baixo</h2><p>Mantém o ecrã para cima enquanto lês. Depois vira o telemóvel completamente, com o ecrã virado para baixo.</p><div class="turnprogress"><i id="turnbar"></i></div><div id="motionNote" class="hint"></div></div><div id="playingView" class="hidden"><div class="secret">🎸 A TOCAR</div><p>Adivinha antes de revelar.</p><div class="spotifybox" id="spotifybox"></div><div class="buttons"><button class="secondary" id="revealBtn">Revelar resposta</button></div><div class="reveal hidden" id="answer"><h2 id="title"></h2><div class="year" id="year"></div><div class="artist" id="artist"></div></div><div class="buttons"><button class="danger" id="next">Próxima carta</button></div></div></div></div></section></main><div class="signature">by Videira · v1.72</div>
 
 
 <button id="homeMenuBtn" aria-label="Voltar ao menu inicial"
@@ -310,19 +310,42 @@ function startFestival(){
   let names=[...document.querySelectorAll('.festName')].map(x=>x.value.trim()).filter(Boolean);
   if(names.length<2){alert('Indica pelo menos 2 bandas/jogadores.');return}
   setGameInProgress(true);
-  festivalPlayers=names.map(n=>({name:n,fans:0,streak:0}));
+  festivalPlayers=names.map(n=>({name:n,fans:0,streak:0,lastChallenge:''}));
   festivalTurn=0;festivalRound=1;
   $('festivalSetup').classList.add('hidden');
   prepareFestivalTurn();
 }
-function festivalStageInfo(f){
-  if(f>=50000)return {name:'👑 HEADLINER',challenge:'ANO EXATO + ARTISTA',help:'Diz o ano exato e o nome do artista.'};
-  if(f>=35000)return {name:'🔥 PALCO PRINCIPAL',challenge:'ARTISTA + MÚSICA',help:'Diz o nome do artista/banda e o título da música.'};
-  if(f>=20000)return {name:'🎪 FESTIVAL',challenge:'± 2 ANOS',help:'Tenta acertar no ano, com uma margem máxima de 2 anos.'};
-  if(f>=8000)return {name:'🎸 CLUBE',challenge:'± 4 ANOS',help:'Tenta acertar no ano, com uma margem máxima de 4 anos.'};
-  return {name:'🍺 BAR',challenge:'DÉCADA',help:'Diz em que década foi lançada a música.'};
+function festivalStageInfo(f,p){
+  const help={
+    'DÉCADA':'Diz em que década foi lançada a música.',
+    'BANDA OU SOLO':'Diz se estás a ouvir uma banda/grupo ou um artista a solo.',
+    '± 4 ANOS':'Tenta acertar no ano, com uma margem máxima de 4 anos.',
+    '± 2 ANOS':'Tenta acertar no ano, com uma margem máxima de 2 anos.',
+    'ARTISTA':'Diz o nome do artista ou banda.',
+    'MÚSICA':'Diz o título da música.',
+    'ANO EXATO':'Diz o ano exato em que a música foi lançada.',
+    'ARTISTA + MÚSICA':'Diz o artista/banda e o título da música.',
+    'ANO EXATO + ARTISTA':'Diz o ano exato e o nome do artista.'
+  };
+  let name,pool;
+  if(f>=50000){name='👑 HEADLINER';pool=['ANO EXATO + ARTISTA','ARTISTA + MÚSICA','ANO EXATO'];}
+  else if(f>=35000){name='🔥 PALCO PRINCIPAL';pool=['ARTISTA + MÚSICA','ANO EXATO','ARTISTA','MÚSICA'];}
+  else if(f>=20000){name='🎪 FESTIVAL';pool=['± 2 ANOS','ARTISTA','MÚSICA','ANO EXATO'];}
+  else if(f>=8000){name='🎸 CLUBE';pool=['± 4 ANOS','DÉCADA','ARTISTA','BANDA OU SOLO'];}
+  else{name='🍺 BAR';pool=['DÉCADA','BANDA OU SOLO'];}
+  let choices=(p&&p.lastChallenge)?pool.filter(x=>x!==p.lastChallenge):pool.slice();
+  if(!choices.length)choices=pool.slice();
+  const challenge=choices[Math.floor(Math.random()*choices.length)];
+  if(p)p.lastChallenge=challenge;
+  return {name,challenge,help:help[challenge]||''};
 }
-function stageFor(f){return festivalStageInfo(f).name}
+function stageFor(f){
+  if(f>=50000)return '👑 HEADLINER';
+  if(f>=35000)return '🔥 PALCO PRINCIPAL';
+  if(f>=20000)return '🎪 FESTIVAL';
+  if(f>=8000)return '🎸 CLUBE';
+  return '🍺 BAR';
+}
 function updateFestivalCareer(f){
   f=Math.max(0,Number(f)||0);
   const levels=[
@@ -351,7 +374,7 @@ function updateFestivalCareer(f){
 }
 function prepareFestivalTurn(){
   setTimeout(updateFestivalStandingsButton,0);
-  let p=festivalPlayers[festivalTurn],info=festivalStageInfo(p.fans);
+  let p=festivalPlayers[festivalTurn],info=festivalStageInfo(p.fans,p);
   festivalHeadliner=p.fans>=50000;
   currentChallenge=info.challenge;
   festivalEvent=festivalEvents[Math.floor(Math.random()*festivalEvents.length)];
@@ -366,13 +389,11 @@ function prepareFestivalTurn(){
   $('festivalIntro').classList.remove('hidden');
 }
 function festivalChallenge(){
-  let p=festivalPlayers[festivalTurn],info=festivalStageInfo(p.fans);
+  let p=festivalPlayers[festivalTurn];
   festivalHeadliner=p.fans>=50000;
-  currentChallenge=info.challenge;
 
-  // Festival não usa challenges[gameMode], porque não existe challenges.festival.
-  // Mostrar diretamente o objetivo da fase sem interromper load()/prepareSpotify().
-  let idx=currentChallenge==='DÉCADA'?0:currentChallenge==='± 4 ANOS'?1:currentChallenge==='± 2 ANOS'?2:currentChallenge==='ARTISTA + MÚSICA'?3:4;
+  // A categoria já foi sorteada no início do turno e não muda ao ler a carta.
+  let idx=currentChallenge==='DÉCADA'?0:currentChallenge==='± 4 ANOS'?1:currentChallenge==='± 2 ANOS'?2:(currentChallenge==='ARTISTA'||currentChallenge==='ARTISTA + MÚSICA')?3:4;
   let c=$('challenge');
   challengeColorsV7.forEach(x=>c.classList.remove(x));
   c.classList.add(challengeColorsV7[idx]);
@@ -391,7 +412,14 @@ function renderFestival(){
   setTimeout(updateFestivalStandingsButton,0);if(gameMode!=='festival')return;let p=festivalPlayers[festivalTurn];$('festivalBoard').classList.remove('hidden');$('currentPlayer').textContent='🎤 AGORA JOGA: '+p.name;$('festTurn').textContent='🎪 RONDA '+festivalRound;$('festStage').textContent=stageFor(p.fans)+' · '+p.fans.toLocaleString('pt-PT')+' fãs';$('festEvent').textContent=festivalHeadliner?'🔥 HEADLINER CHALLENGE — acerta para conquistar o festival!':festivalEvent[0];$('festScores').innerHTML=''}
 function scoreFestival(ok){
   setTimeout(updateFestivalStandingsButton,0);
-  setTimeout(updateFestivalStandingsButton,0);if(festivalScored)return;festivalScored=true;let p=festivalPlayers[festivalTurn];if(festivalHeadliner&&ok){alert('👑 '+p.name+' É O HIT ROCK HEADLINER! 👑');$('festActions').classList.add('hidden');return}let gain=currentChallenge==='DÉCADA'?1000:currentChallenge==='± 4 ANOS'?2000:currentChallenge==='± 2 ANOS'?5000:currentChallenge==='ARTISTA + MÚSICA'?8000:10000;if(festivalEvent&&festivalEvent[1]==='double')gain*=2;if(festivalEvent&&festivalEvent[1]==='allin')gain*=2;if(ok){p.fans+=gain;p.streak++;if(festivalEvent&&festivalEvent[1]==='steal'){let rivals=festivalPlayers.filter(x=>x!==p).sort((a,b)=>b.fans-a.fans);if(rivals[0]){let n=Math.min(3000,rivals[0].fans);rivals[0].fans-=n;p.fans+=n}}}else{p.streak=0}renderFestival();let rr=$('roundResult');rr.textContent=ok?'✅ ACERTOU! +'+gain.toLocaleString('pt-PT')+' fãs':'❌ FALHOU!';rr.classList.remove('hidden','ok','no');rr.classList.add(ok?'ok':'no');$('festActions').classList.add('hidden')}
+  setTimeout(updateFestivalStandingsButton,0);if(festivalScored)return;festivalScored=true;let p=festivalPlayers[festivalTurn];if(festivalHeadliner&&ok){alert('👑 '+p.name+' É O HIT ROCK HEADLINER! 👑');$('festActions').classList.add('hidden');return}let gain=currentChallenge==='DÉCADA'?1000:
+currentChallenge==='BANDA OU SOLO'?1000:
+currentChallenge==='± 4 ANOS'?2000:
+currentChallenge==='ARTISTA'?3000:
+currentChallenge==='± 2 ANOS'?5000:
+currentChallenge==='MÚSICA'?5000:
+currentChallenge==='ANO EXATO'?7000:
+currentChallenge==='ARTISTA + MÚSICA'?8000:10000;if(festivalEvent&&festivalEvent[1]==='double')gain*=2;if(festivalEvent&&festivalEvent[1]==='allin')gain*=2;if(ok){p.fans+=gain;p.streak++;if(festivalEvent&&festivalEvent[1]==='steal'){let rivals=festivalPlayers.filter(x=>x!==p).sort((a,b)=>b.fans-a.fans);if(rivals[0]){let n=Math.min(3000,rivals[0].fans);rivals[0].fans-=n;p.fans+=n}}}else{p.streak=0}renderFestival();let rr=$('roundResult');rr.textContent=ok?'✅ ACERTOU! +'+gain.toLocaleString('pt-PT')+' fãs':'❌ FALHOU!';rr.classList.remove('hidden','ok','no');rr.classList.add(ok?'ok':'no');$('festActions').classList.add('hidden')}
 
 function millionShuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function millionUnique(vals){return [...new Set(vals.filter(v=>v!==undefined&&v!==null&&String(v).trim()!==''))]}
@@ -689,7 +717,7 @@ document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>chooseMode(b.d
   if(gameMode==='festival')$('festActions').classList.remove('hidden');
   setTimeout(()=>$('answer').scrollIntoView({behavior:'smooth',block:'center'}),50);
 };$('festivalReady').onclick=()=>{
-  let p=festivalPlayers[festivalTurn],info=festivalStageInfo(p.fans);
+  let p=festivalPlayers[festivalTurn],info={name:stageFor(p.fans),challenge:currentChallenge};
   $('festivalIntro').classList.add('hidden');
   $('scanView').classList.remove('hidden');
   $('status').textContent=info.name+' — '+p.name+' — Objetivo: '+info.challenge;
@@ -856,5 +884,5 @@ function quizFinishRound(){if(!quizHost||!quizCurrent||quizCurrent.done)return;q
 function quizShowResults(m,end=false){clearInterval(quizTimerId);$('quizGame').classList.add('hidden');$('quizLobby').classList.add('hidden');$('quizResults').classList.remove('hidden');$('quizResultTitle').textContent=end?'🏆 RESULTADO FINAL':'RESPOSTA · '+(m.correctText||'');$('quizScores').innerHTML=(m.players||[]).map((p,i)=>'<div class="quizPlayer"><span>'+(i===0?'🏆 ':'')+quizEsc(p.name)+(p.gain?' <small>+'+p.gain+'</small>':'')+'</span><strong>'+p.score+' pts</strong></div>').join('');$('quizNext').classList.toggle('hidden',!quizHost||end);}
 $('quizCreate').onclick=quizCreateRoom;$('quizJoinShow').onclick=()=>{$('quizJoinBox').classList.toggle('hidden')};$('quizJoin').onclick=quizJoinRoom;$('quizStartGame').onclick=quizStart;$('quizNext').onclick=quizNextRound;
 
-window.addEventListener('beforeunload',stop);if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js?v=1.71',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{});
+window.addEventListener('beforeunload',stop);if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js?v=1.72',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{});
 </script></body></html>

@@ -1,4 +1,4 @@
-const C='hitrock-v1.69';
+const C='hitrock-v1.70';
 const CORE=['./songs.json','./manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png'];
 
 self.addEventListener('install',event=>{

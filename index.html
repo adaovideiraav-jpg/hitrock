@@ -74,6 +74,17 @@ border:none!important;outline:none!important;box-shadow:none!important
 .hrEq i:nth-child(2){animation-delay:.12s}.hrEq i:nth-child(3){animation-delay:.24s}.hrEq i:nth-child(4){animation-delay:.08s}.hrEq i:nth-child(5){animation-delay:.32s}
 @keyframes hrEqBeat{0%,100%{height:7px;opacity:.55}50%{height:28px;opacity:1}}
 </style>
+
+<style>
+.festCareer{margin:14px 0 4px;padding:13px;border:1px solid #ffffff20;border-radius:16px;background:#ffffff09;text-align:left}
+.festCareerTop{display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:12px;font-weight:900}
+.festCareerTop span:last-child{opacity:.72;text-align:right}
+.festCareerBar{height:8px;margin:10px 0 8px;background:#ffffff18;border-radius:99px;overflow:hidden}
+.festCareerBar i{display:block;height:100%;width:0;background:#fff;border-radius:99px;transition:width .45s ease}
+.festCareerStages{display:flex;justify-content:space-between;gap:3px;font-size:10px;opacity:.5}
+.festCareerStages span.active{opacity:1;font-weight:1000}
+.festCareerNext{font-size:12px;opacity:.8;margin-top:8px;text-align:center}
+</style>
 </head><body><main class="app"><header><div class="logo">HIT ROCK</div><div class="sub">scan • listen • guess</div></header><section class="panel"><div id="modeView" class="modeview"><h2>Escolhe o modo</h2><p>Como queres jogar?</p><div class="modegrid"><div class="modeWithInfo"><button class="secondary modebtn" data-mode="normal">🎵 NORMAL<small>Modo clássico HIT ROCK</small></button><button type="button" class="modeInfoBtn" data-info-mode="normal" aria-label="Regras">ⓘ</button></div><div class="modeWithInfo"><button class="secondary modebtn" data-mode="expert">🔥 EXPERT<small>Década · ±4 · ±3 · ±2 · Ano · Artista · Música · Banda/Solo</small></button><button type="button" class="modeInfoBtn" data-info-mode="expert" aria-label="Regras">ⓘ</button></div><div class="modeWithInfo"><button class="secondary modebtn" data-mode="festival">🎪 FESTIVAL<small>Ganha fãs · sobe de palco · torna-te Headliner</small></button><button type="button" class="modeInfoBtn" data-info-mode="festival" aria-label="Regras">ⓘ</button></div><div class="modeWithInfo"><button class="secondary modebtn" data-mode="millionaire">🥾🔥 MILIONÁRIO<small>Solo · chega a 1.000.000 de fãs sem falhar</small></button><button type="button" class="modeInfoBtn" data-info-mode="millionaire" aria-label="Regras">ⓘ</button></div><div class="modeWithInfo"><button class="secondary modebtn" data-mode="quiz">❓ QUIZ<small>2–8 jogadores · cada um no seu telemóvel</small></button><button type="button" class="modeInfoBtn" data-info-mode="quiz" aria-label="Regras">ⓘ</button></div></div><div id="festivalSetup" class="festivalSetup hidden"><h3>🎪 Criar Festival</h3><p>2 a 8 bandas/jogadores</p><div id="festivalNames"></div><div class="buttons"><button class="primary" id="festivalStart">Começar Festival</button></div></div></div>
 
 <div id="quizView" class="hidden quizPanel">
@@ -140,10 +151,15 @@ border:none!important;outline:none!important;box-shadow:none!important
 <div id="festivalIntro" class="festivalIntro hidden">
 <div class="who">AGORA JOGA</div>
 <div class="player" id="festivalIntroPlayer"></div>
-<div class="stage" id="festivalIntroStage"></div>
+<div class="stage" id="festivalIntroStage"></div><div class="festCareer" id="festivalCareer">
+<div class="festCareerTop"><span id="festivalCareerCurrent">🍺 BAR</span><span id="festivalCareerFans">0 / 8.000 fãs</span></div>
+<div class="festCareerBar"><i id="festivalCareerFill"></i></div>
+<div class="festCareerStages"><span>🍺 BAR</span><span>🎸 CLUBE</span><span>🎪 FESTIVAL</span><span>🔥 PALCO</span><span>👑 HEADLINER</span></div>
+<div class="festCareerNext" id="festivalCareerNext">Próximo objetivo: 🎸 CLUBE · faltam 8.000 fãs</div>
+</div>
 <div class="objective"><span>OBJETIVO DESTA FASE</span><strong id="festivalIntroObjective"></strong><div id="festivalIntroHelp" class="hint"></div></div>
 <div class="buttons"><button class="primary" id="festivalReady">Estou pronto — ler carta</button></div>
-</div><div id="scanView" class="hidden"><div id="reader"><video id="video" playsinline muted></video><div class="frame"></div></div><div class="status" id="status">Aponta a câmara ao QR HIT ROCK</div><div class="buttons"><button class="primary" id="start">Ligar câmara</button></div><div class="manual"><input id="manual" placeholder="HR0001 ou 0001"><button class="secondary" id="go">OK</button></div></div><div id="gameView" class="hidden"><div class="result"><div class="cardno" id="cardno"></div><div id="challenge" class="challenge hidden"><span id="wheel" class="wheel">🎡</span><div class="label">DESAFIO</div><div class="value" id="challengeText"></div></div><div id="festivalBoard" class="festivalBoard hidden"><div id="currentPlayer" class="currentPlayer"></div><div class="festTop" id="festTurn"></div><div class="festStage" id="festStage"></div><div class="festEvent" id="festEvent"></div><div class="festScores" id="festScores" style="display:none!important"></div><div id="festActions" class="festActions hidden"><button class="success" id="festHit">✅ ACERTOU</button><button class="fail" id="festMiss">❌ FALHOU</button></div></div><div id="flipView" class="flipmsg"><span class="phone">📱</span><h2>Vira o telemóvel para baixo</h2><p>Mantém o ecrã para cima enquanto lês. Depois vira o telemóvel completamente, com o ecrã virado para baixo.</p><div class="turnprogress"><i id="turnbar"></i></div><div id="motionNote" class="hint"></div></div><div id="playingView" class="hidden"><div class="secret">🎸 A TOCAR</div><p>Adivinha antes de revelar.</p><div class="spotifybox" id="spotifybox"></div><div class="buttons"><button class="secondary" id="revealBtn">Revelar resposta</button></div><div class="reveal hidden" id="answer"><h2 id="title"></h2><div class="year" id="year"></div><div class="artist" id="artist"></div></div><div class="buttons"><button class="danger" id="next">Próxima carta</button></div></div></div></div></section></main><div class="signature">by Videira · v1.70</div>
+</div><div id="scanView" class="hidden"><div id="reader"><video id="video" playsinline muted></video><div class="frame"></div></div><div class="status" id="status">Aponta a câmara ao QR HIT ROCK</div><div class="buttons"><button class="primary" id="start">Ligar câmara</button></div><div class="manual"><input id="manual" placeholder="HR0001 ou 0001"><button class="secondary" id="go">OK</button></div></div><div id="gameView" class="hidden"><div class="result"><div class="cardno" id="cardno"></div><div id="challenge" class="challenge hidden"><span id="wheel" class="wheel">🎡</span><div class="label">DESAFIO</div><div class="value" id="challengeText"></div></div><div id="festivalBoard" class="festivalBoard hidden"><div id="currentPlayer" class="currentPlayer"></div><div class="festTop" id="festTurn"></div><div class="festStage" id="festStage"></div><div class="festEvent" id="festEvent"></div><div class="festScores" id="festScores" style="display:none!important"></div><div id="festActions" class="festActions hidden"><button class="success" id="festHit">✅ ACERTOU</button><button class="fail" id="festMiss">❌ FALHOU</button></div></div><div id="flipView" class="flipmsg"><span class="phone">📱</span><h2>Vira o telemóvel para baixo</h2><p>Mantém o ecrã para cima enquanto lês. Depois vira o telemóvel completamente, com o ecrã virado para baixo.</p><div class="turnprogress"><i id="turnbar"></i></div><div id="motionNote" class="hint"></div></div><div id="playingView" class="hidden"><div class="secret">🎸 A TOCAR</div><p>Adivinha antes de revelar.</p><div class="spotifybox" id="spotifybox"></div><div class="buttons"><button class="secondary" id="revealBtn">Revelar resposta</button></div><div class="reveal hidden" id="answer"><h2 id="title"></h2><div class="year" id="year"></div><div class="artist" id="artist"></div></div><div class="buttons"><button class="danger" id="next">Próxima carta</button></div></div></div></div></section></main><div class="signature">by Videira · v1.71</div>
 
 
 <button id="homeMenuBtn" aria-label="Voltar ao menu inicial"
@@ -307,6 +323,32 @@ function festivalStageInfo(f){
   return {name:'🍺 BAR',challenge:'DÉCADA',help:'Diz em que década foi lançada a música.'};
 }
 function stageFor(f){return festivalStageInfo(f).name}
+function updateFestivalCareer(f){
+  f=Math.max(0,Number(f)||0);
+  const levels=[
+    {min:0,name:'🍺 BAR'},
+    {min:8000,name:'🎸 CLUBE'},
+    {min:20000,name:'🎪 FESTIVAL'},
+    {min:35000,name:'🔥 PALCO PRINCIPAL'},
+    {min:50000,name:'👑 HEADLINER'}
+  ];
+  let idx=0;
+  for(let i=0;i<levels.length;i++)if(f>=levels[i].min)idx=i;
+  const cur=levels[idx],next=levels[idx+1];
+  $('festivalCareerCurrent').textContent=cur.name;
+  if(!next){
+    $('festivalCareerFans').textContent=f.toLocaleString('pt-PT')+' fãs';
+    $('festivalCareerFill').style.width='100%';
+    $('festivalCareerNext').textContent='👑 Objetivo máximo alcançado — HEADLINER';
+  }else{
+    const span=next.min-cur.min;
+    const progress=Math.max(0,Math.min(1,(f-cur.min)/span));
+    $('festivalCareerFill').style.width=(progress*100)+'%';
+    $('festivalCareerFans').textContent=f.toLocaleString('pt-PT')+' / '+next.min.toLocaleString('pt-PT')+' fãs';
+    $('festivalCareerNext').textContent='Próximo objetivo: '+next.name+' · faltam '+Math.max(0,next.min-f).toLocaleString('pt-PT')+' fãs';
+  }
+  document.querySelectorAll('#festivalCareer .festCareerStages span').forEach((el,i)=>el.classList.toggle('active',i===idx));
+}
 function prepareFestivalTurn(){
   setTimeout(updateFestivalStandingsButton,0);
   let p=festivalPlayers[festivalTurn],info=festivalStageInfo(p.fans);
@@ -315,7 +357,7 @@ function prepareFestivalTurn(){
   festivalEvent=festivalEvents[Math.floor(Math.random()*festivalEvents.length)];
   festivalScored=false;
   $('festivalIntroPlayer').textContent=p.name;
-  $('festivalIntroStage').textContent=info.name+' · '+p.fans.toLocaleString('pt-PT')+' fãs';
+  $('festivalIntroStage').textContent=info.name+' · '+p.fans.toLocaleString('pt-PT')+' fãs';updateFestivalCareer(p.fans);
   $('festivalIntroObjective').textContent=info.challenge;
   $('festivalIntroHelp').textContent=info.help;
   $('modeView').classList.add('hidden');
@@ -814,5 +856,5 @@ function quizFinishRound(){if(!quizHost||!quizCurrent||quizCurrent.done)return;q
 function quizShowResults(m,end=false){clearInterval(quizTimerId);$('quizGame').classList.add('hidden');$('quizLobby').classList.add('hidden');$('quizResults').classList.remove('hidden');$('quizResultTitle').textContent=end?'🏆 RESULTADO FINAL':'RESPOSTA · '+(m.correctText||'');$('quizScores').innerHTML=(m.players||[]).map((p,i)=>'<div class="quizPlayer"><span>'+(i===0?'🏆 ':'')+quizEsc(p.name)+(p.gain?' <small>+'+p.gain+'</small>':'')+'</span><strong>'+p.score+' pts</strong></div>').join('');$('quizNext').classList.toggle('hidden',!quizHost||end);}
 $('quizCreate').onclick=quizCreateRoom;$('quizJoinShow').onclick=()=>{$('quizJoinBox').classList.toggle('hidden')};$('quizJoin').onclick=quizJoinRoom;$('quizStartGame').onclick=quizStart;$('quizNext').onclick=quizNextRound;
 
-window.addEventListener('beforeunload',stop);if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js?v=1.70',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{});
+window.addEventListener('beforeunload',stop);if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js?v=1.71',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{});
 </script></body></html>

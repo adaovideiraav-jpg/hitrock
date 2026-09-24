@@ -148,6 +148,33 @@ header{padding:12px 0 6px!important}
 /* v1.89 — menos espaço entre os modos */
 #modeView .modegrid{gap:5px!important}
 #modeView .modebtn{margin-top:4px!important;margin-bottom:4px!important}
+</style><style>
+/* v1.91 — escada Millionário sempre visível e ajudas gastas */
+#millionView .millionLadder{
+ display:grid!important;grid-template-columns:repeat(10,1fr);gap:3px;
+ margin:5px 0 9px!important;padding:8px 7px 6px;
+ border:1px solid #ffffff20;border-radius:12px;background:#080808;
+ position:sticky;top:4px;z-index:30
+}
+#millionView .millionLadder div{
+ display:flex!important;min-width:0;flex-direction:column;align-items:center;
+ justify-content:center;padding:0!important;background:none!important;opacity:.34!important
+}
+#millionView .millionLadder div span{
+ display:block;width:100%;height:5px;border-radius:99px;background:#ffffff35
+}
+#millionView .millionLadder div small{
+ margin-top:4px;font-size:8px;line-height:1;color:#fff;white-space:nowrap
+}
+#millionView .millionLadder div.done{opacity:.72!important}
+#millionView .millionLadder div.done span{background:#fff}
+#millionView .millionLadder div.next{opacity:1!important;font-weight:1000;transform:scale(1.08)}
+#millionView .millionLadder div.next span{height:7px;background:#fff;box-shadow:0 0 8px #fff}
+#millionView .millionHelp button.used{
+ opacity:.22!important;filter:grayscale(1);text-decoration:line-through!important;
+ border-style:dashed!important;transform:scale(.96);pointer-events:none
+}
+#millionView .millionHelp button.used::after{content:" · USADA";font-size:9px;letter-spacing:.04em}
 </style></head><body><div id="hitrockSplash" aria-hidden="true">
  <img class="hrSplashImage" src="hitrock-splash.webp" alt="">
  <div class="hrSplashBars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -196,6 +223,7 @@ header{padding:12px 0 6px!important}
     <div><div class="millionStep" id="millionStep">PERGUNTA 1 DE 10</div><div class="millionFans" id="millionFans">👥 0 FÃS</div></div>
     <div style="font-size:28px">🥾🔥</div>
   </div>
+  <div class="millionLadder" id="millionLadder"></div>
   <div class="millionHelp">
     <button id="million5050">50/50</button>
     <button id="millionAudience">👥 PÚBLICO</button>
@@ -214,7 +242,7 @@ header{padding:12px 0 6px!important}
     <div class="millionAnswers" id="millionAnswers"></div>
     <div class="millionMessage" id="millionMessage"></div>
   </div>
-  <div class="millionLadder" id="millionLadder"></div>
+  
 </div>
 <div id="festivalIntro" class="festivalIntro hidden">
 <div class="who">AGORA JOGA</div>
@@ -227,7 +255,7 @@ header{padding:12px 0 6px!important}
 </div>
 <div class="objective"><span>OBJETIVO DESTA FASE</span><strong id="festivalIntroObjective"></strong><div id="festivalIntroHelp" class="hint"></div></div>
 <div class="buttons"><button class="primary" id="festivalReady">Estou pronto — ler carta</button></div>
-</div><div id="scanView" class="hidden"><div id="reader"><video id="video" playsinline muted></video><div class="frame"></div></div><div class="status" id="status">Aponta a câmara ao QR HIT ROCK</div><div class="buttons"><button class="primary" id="start">Ligar câmara</button></div><div class="manual"><input id="manual" placeholder="HR0001 ou 0001"><button class="secondary" id="go">OK</button></div></div><div id="gameView" class="hidden"><div class="result"><div class="cardno" id="cardno"></div><div id="challenge" class="challenge hidden"><span id="wheel" class="wheel">🎡</span><div class="label">DESAFIO</div><div class="value" id="challengeText"></div></div><div id="festivalBoard" class="festivalBoard hidden"><div id="currentPlayer" class="currentPlayer"></div><div class="festTop" id="festTurn"></div><div class="festStage" id="festStage"></div><div class="festEvent" id="festEvent"></div><div class="festScores" id="festScores" style="display:none!important"></div><div id="festActions" class="festActions hidden"><button class="success" id="festHit">✅ ACERTOU</button><button class="fail" id="festMiss">❌ FALHOU</button></div></div><div id="flipView" class="flipmsg"><span class="phone">📱</span><h2>Vira o telemóvel para baixo</h2><p>Mantém o ecrã para cima enquanto lês. Depois vira o telemóvel completamente, com o ecrã virado para baixo.</p><div class="turnprogress"><i id="turnbar"></i></div><div id="motionNote" class="hint"></div></div><div id="playingView" class="hidden"><div class="secret">🎸 A TOCAR</div><p>Adivinha antes de revelar.</p><div class="spotifybox" id="spotifybox"></div><div class="buttons"><button class="secondary" id="revealBtn">Revelar resposta</button></div><div class="reveal hidden" id="answer"><h2 id="title"></h2><div class="year" id="year"></div><div class="artist" id="artist"></div></div><div class="buttons"><button class="danger" id="next">Próxima carta</button></div></div></div></div></section></main><div class="signature">by Videira · v1.90</div>
+</div><div id="scanView" class="hidden"><div id="reader"><video id="video" playsinline muted></video><div class="frame"></div></div><div class="status" id="status">Aponta a câmara ao QR HIT ROCK</div><div class="buttons"><button class="primary" id="start">Ligar câmara</button></div><div class="manual"><input id="manual" placeholder="HR0001 ou 0001"><button class="secondary" id="go">OK</button></div></div><div id="gameView" class="hidden"><div class="result"><div class="cardno" id="cardno"></div><div id="challenge" class="challenge hidden"><span id="wheel" class="wheel">🎡</span><div class="label">DESAFIO</div><div class="value" id="challengeText"></div></div><div id="festivalBoard" class="festivalBoard hidden"><div id="currentPlayer" class="currentPlayer"></div><div class="festTop" id="festTurn"></div><div class="festStage" id="festStage"></div><div class="festEvent" id="festEvent"></div><div class="festScores" id="festScores" style="display:none!important"></div><div id="festActions" class="festActions hidden"><button class="success" id="festHit">✅ ACERTOU</button><button class="fail" id="festMiss">❌ FALHOU</button></div></div><div id="flipView" class="flipmsg"><span class="phone">📱</span><h2>Vira o telemóvel para baixo</h2><p>Mantém o ecrã para cima enquanto lês. Depois vira o telemóvel completamente, com o ecrã virado para baixo.</p><div class="turnprogress"><i id="turnbar"></i></div><div id="motionNote" class="hint"></div></div><div id="playingView" class="hidden"><div class="secret">🎸 A TOCAR</div><p>Adivinha antes de revelar.</p><div class="spotifybox" id="spotifybox"></div><div class="buttons"><button class="secondary" id="revealBtn">Revelar resposta</button></div><div class="reveal hidden" id="answer"><h2 id="title"></h2><div class="year" id="year"></div><div class="artist" id="artist"></div></div><div class="buttons"><button class="danger" id="next">Próxima carta</button></div></div></div></div></section></main><div class="signature">by Videira · v1.91</div>
 
 
 <button id="homeMenuBtn" aria-label="Voltar ao menu inicial"
@@ -553,9 +581,10 @@ function millionMakeQuestion(s){
   return {cat,q,opts,correct:opts.indexOf(correct)};
 }
 function millionRenderLadder(){
-  $('millionLadder').innerHTML=MILLION_LADDER.slice().reverse().map((v,ri)=>{
-    const i=MILLION_LADDER.length-1-ri;
-    return '<div class="'+(i===millionIndex?'active':i<millionIndex?'done':'')+'"><span>'+(i===9?'🏆 ':'')+(i+1)+'.</span><strong>'+v.toLocaleString('pt-PT')+' 👥</strong></div>';
+  $('millionLadder').innerHTML=MILLION_LADDER.map((v,i)=>{
+    const cls=i<millionIndex?'done':i===millionIndex?'next':'';
+    const label=v>=1000000?'1M':v>=1000?(v/1000).toLocaleString('pt-PT')+'k':v;
+    return '<div class="'+cls+'"><span></span><small>'+label+'</small></div>';
   }).join('');
 }
 function millionPrepareSpotify(s){
@@ -952,7 +981,7 @@ function quizFinishRound(){if(!quizHost||!quizCurrent||quizCurrent.done)return;q
 function quizShowResults(m,end=false){clearInterval(quizTimerId);$('quizGame').classList.add('hidden');$('quizLobby').classList.add('hidden');$('quizResults').classList.remove('hidden');$('quizResultTitle').textContent=end?'🏆 RESULTADO FINAL':'RESPOSTA · '+(m.correctText||'');$('quizScores').innerHTML=(m.players||[]).map((p,i)=>'<div class="quizPlayer"><span>'+(i===0?'🏆 ':'')+quizEsc(p.name)+(p.gain?' <small>+'+p.gain+'</small>':'')+'</span><strong>'+p.score+' pts</strong></div>').join('');$('quizNext').classList.toggle('hidden',!quizHost||end);}
 $('quizCreate').onclick=quizCreateRoom;$('quizJoinShow').onclick=()=>{$('quizJoinBox').classList.toggle('hidden')};$('quizJoin').onclick=quizJoinRoom;$('quizStartGame').onclick=quizStart;$('quizNext').onclick=quizNextRound;
 
-window.addEventListener('beforeunload',stop);if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js?v=1.90',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{});
+window.addEventListener('beforeunload',stop);if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js?v=1.91',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{});
 </script><script>
 (function(){
  const splash=document.getElementById('hitrockSplash');

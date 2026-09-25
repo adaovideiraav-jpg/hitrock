@@ -352,7 +352,11 @@ window.addEventListener('popstate',function(){
 });
 const $=x=>document.getElementById(x);
 window.onSpotifyIframeApiReady=(IFrameAPI)=>{spotifyApiReady=true;window._spotifyIFrameAPI=IFrameAPI;if(pendingSpotifyId)prepareSpotify(pendingSpotifyId)};
-fetch('songs.json').then(r=>r.json()).then(d=>{songs=d;d.forEach(s=>{map.set(s.id,s);map.set(String(s.n),s);map.set(String(s.n).padStart(4,'0'),s)});});
+fetch('songs.json').then(r=>r.json()).then(d=>{
+const extra={id:'HR0220',n:220,title:'The Pretender',artist:'Foo Fighters',year:2007,spotifyId:'7x8dCjCr0x6x2lXKujYD34',spotifyUrl:'https://open.spotify.com/track/7x8dCjCr0x6x2lXKujYD34'};
+if(!d.some(s=>Number(s.n)===220))d.push(extra);
+songs=d;d.forEach(s=>{map.set(s.id,s);map.set(String(s.n),s);map.set(String(s.n).padStart(4,'0'),s)});
+});
 function parse(raw){raw=(raw||'').trim();let m=raw.match(/HR[-_ ]?(\d{1,4})/i)||raw.match(/(?:^|\/)(\d{1,4})(?:[/?#]|$)/);if(!m&&/^\d{1,4}$/.test(raw))m=[raw,raw];if(!m)return null;let n=String(parseInt(m[1],10));return map.get(n)||map.get(n.padStart(4,'0'))||map.get('HR'+n.padStart(4,'0'));}
 function spotifyId(s){return s.spotifyId||((s.spotifyUrl||'').match(/track\/([A-Za-z0-9]+)/)||[])[1]||''}
 function prepareSpotify(id){

@@ -178,12 +178,26 @@ header{padding:12px 0 6px!important}
 .quizCardReader{position:relative;overflow:hidden;border-radius:16px;background:#050505;min-height:190px;margin:10px 0}
 .quizCardReader video{display:block;width:100%;min-height:190px;object-fit:cover}
 .quizCardReader .frame{position:absolute;inset:22px;border:2px solid #fff;border-radius:14px;pointer-events:none}
+
+/* v1.98 — Normal com ou sem cartas */
+#normalModeChoice{display:grid;gap:10px;margin:14px 0}
+#normalModeChoice button{min-height:66px;font-weight:1000}
+#normalModeChoice button small{display:block;margin-top:4px;font-size:.76rem;font-weight:600;opacity:.72}
 </style></head><body><div id="hitrockSplash" aria-hidden="true">
  <img class="hrSplashImage" src="hitrock-splash.webp" alt="">
  <div class="hrSplashBars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
 </div><main class="app"><header><div class="menuBrandFinal">
       <img src="hitrock-menu-user.webp" alt="HIT ROCK · SCAN · LISTEN · GUESS">
     </div></header><section class="panel"><div id="modeView" class="modeview"><h2>Escolhe o modo</h2><p>Como queres jogar?</p><div class="modegrid"><div class="modeWithInfo"><button class="secondary modebtn" data-mode="normal">🎵 NORMAL<small>Modo clássico HIT ROCK</small></button><button type="button" class="modeInfoBtn" data-info-mode="normal" aria-label="Regras">ⓘ</button></div><div class="modeWithInfo"><button class="secondary modebtn" data-mode="expert">🔥 EXPERT<small>Década · ±4 · ±3 · ±2 · Ano · Artista · Música · Banda/Solo</small></button><button type="button" class="modeInfoBtn" data-info-mode="expert" aria-label="Regras">ⓘ</button></div><div class="modeWithInfo"><button class="secondary modebtn" data-mode="festival">🎪 FESTIVAL<small>Ganha fãs · sobe de palco · torna-te Headliner</small></button><button type="button" class="modeInfoBtn" data-info-mode="festival" aria-label="Regras">ⓘ</button></div><div class="modeWithInfo"><button class="secondary modebtn" data-mode="millionaire">🥾🔥 MILIONÁRIO<small>Solo · chega a 1.000.000 de fãs sem falhar</small></button><button type="button" class="modeInfoBtn" data-info-mode="millionaire" aria-label="Regras">ⓘ</button></div><div class="modeWithInfo"><button class="secondary modebtn" data-mode="quiz">❓ QUIZ<small>2–8 jogadores · cada um no seu telemóvel</small></button><button type="button" class="modeInfoBtn" data-info-mode="quiz" aria-label="Regras">ⓘ</button></div></div><div id="festivalSetup" class="festivalSetup hidden"><h3>🎪 Criar Festival</h3><p>2 a 8 bandas/jogadores</p><div id="festivalNames"></div><div class="buttons"><button class="primary" id="festivalStart">Começar Festival</button></div></div></div>
+
+<div id="normalChoiceView" class="hidden quizPanel">
+ <h2>🎵 NORMAL</h2>
+ <div id="normalModeChoice">
+  <div class="quizNote">COMO QUERES JOGAR?</div>
+  <button type="button" id="normalWithCards" class="primary">🃏 COM CARTAS<small>Lê o QR de uma carta em cada ronda</small></button>
+  <button type="button" id="normalWithoutCards">📱 SEM CARTAS<small>Vira o telemóvel e a app escolhe uma música automaticamente</small></button>
+ </div>
+</div>
 
 <div id="quizView" class="hidden quizPanel">
  <div id="quizEntry">
@@ -275,7 +289,7 @@ header{padding:12px 0 6px!important}
 </div>
 <div class="objective"><span>OBJETIVO DESTA FASE</span><strong id="festivalIntroObjective"></strong><div id="festivalIntroHelp" class="hint"></div></div>
 <div class="buttons"><button class="primary" id="festivalReady">Estou pronto — ler carta</button></div>
-</div><div id="scanView" class="hidden"><div id="reader"><video id="video" playsinline muted></video><div class="frame"></div></div><div class="status" id="status">Aponta a câmara ao QR HIT ROCK</div><div class="buttons"><button class="primary" id="start">Ligar câmara</button></div><div class="manual"><input id="manual" placeholder="HR0001 ou 0001"><button class="secondary" id="go">OK</button></div></div><div id="gameView" class="hidden"><div class="result"><div class="cardno" id="cardno"></div><div id="challenge" class="challenge hidden"><span id="wheel" class="wheel">🎡</span><div class="label">DESAFIO</div><div class="value" id="challengeText"></div></div><div id="festivalBoard" class="festivalBoard hidden"><div id="currentPlayer" class="currentPlayer"></div><div class="festTop" id="festTurn"></div><div class="festStage" id="festStage"></div><div class="festEvent" id="festEvent"></div><div class="festScores" id="festScores" style="display:none!important"></div><div id="festActions" class="festActions hidden"><button class="success" id="festHit">✅ ACERTOU</button><button class="fail" id="festMiss">❌ FALHOU</button></div></div><div id="flipView" class="flipmsg"><span class="phone">📱</span><h2>Vira o telemóvel para baixo</h2><p>Mantém o ecrã para cima enquanto lês. Depois vira o telemóvel completamente, com o ecrã virado para baixo.</p><div class="turnprogress"><i id="turnbar"></i></div><div id="motionNote" class="hint"></div></div><div id="playingView" class="hidden"><div class="secret">🎸 A TOCAR</div><p>Adivinha antes de revelar.</p><div class="spotifybox" id="spotifybox"></div><div class="buttons"><button class="secondary" id="revealBtn">Revelar resposta</button></div><div class="reveal hidden" id="answer"><h2 id="title"></h2><div class="year" id="year"></div><div class="artist" id="artist"></div></div><div class="buttons"><button class="danger" id="next">Próxima carta</button></div></div></div></div></section></main><div class="signature">by Videira · v1.97</div>
+</div><div id="scanView" class="hidden"><div id="reader"><video id="video" playsinline muted></video><div class="frame"></div></div><div class="status" id="status">Aponta a câmara ao QR HIT ROCK</div><div class="buttons"><button class="primary" id="start">Ligar câmara</button></div><div class="manual"><input id="manual" placeholder="HR0001 ou 0001"><button class="secondary" id="go">OK</button></div></div><div id="gameView" class="hidden"><div class="result"><div class="cardno" id="cardno"></div><div id="challenge" class="challenge hidden"><span id="wheel" class="wheel">🎡</span><div class="label">DESAFIO</div><div class="value" id="challengeText"></div></div><div id="festivalBoard" class="festivalBoard hidden"><div id="currentPlayer" class="currentPlayer"></div><div class="festTop" id="festTurn"></div><div class="festStage" id="festStage"></div><div class="festEvent" id="festEvent"></div><div class="festScores" id="festScores" style="display:none!important"></div><div id="festActions" class="festActions hidden"><button class="success" id="festHit">✅ ACERTOU</button><button class="fail" id="festMiss">❌ FALHOU</button></div></div><div id="flipView" class="flipmsg"><span class="phone">📱</span><h2>Vira o telemóvel para baixo</h2><p>Mantém o ecrã para cima enquanto lês. Depois vira o telemóvel completamente, com o ecrã virado para baixo.</p><div class="turnprogress"><i id="turnbar"></i></div><div id="motionNote" class="hint"></div></div><div id="playingView" class="hidden"><div class="secret">🎸 A TOCAR</div><p>Adivinha antes de revelar.</p><div class="spotifybox" id="spotifybox"></div><div class="buttons"><button class="secondary" id="revealBtn">Revelar resposta</button></div><div class="reveal hidden" id="answer"><h2 id="title"></h2><div class="year" id="year"></div><div class="artist" id="artist"></div></div><div class="buttons"><button class="danger" id="next">Próxima carta</button></div></div></div></div></section></main><div class="signature">by Videira · v1.98</div>
 
 
 <button id="homeMenuBtn" aria-label="Voltar ao menu inicial"
@@ -310,6 +324,8 @@ header{padding:12px 0 6px!important}
 <h2 id="rulesTitle">Como jogar</h2><button id="rulesClose" type="button" style="width:42px;min-width:42px;padding:8px">✕</button></div>
 <div id="rulesText"></div></div></div>
 <script>
+let normalPlayMode='cards',normalSessionUsed=new Set();
+const NORMAL_HISTORY_KEY='hitrock-normal-song-history-v1';
 let songs=[],map=new Map(),stream=null,scanning=false,detector=null,last='',current=null,gameMode='normal',currentChallenge='',motionReady=false,faceDownSince=0,latestGravityZ=null,scanFaceSign=null,spotifyController=null,spotifyApiReady=false,pendingSpotifyId='',festivalPlayers=[],festivalTurn=0,festivalRound=1,festivalEvent=null,festivalScored=false,festivalHeadliner=false,flipShownAt=0;
 let millionIndex=0,millionFans=0,millionCurrent=null,millionCorrect=-1,millionUsedSongs=new Set(),millionLocked=false,millionLastQuestionType='';
 let millionHelps={fifty:false,audience:false,friend:false};
@@ -690,11 +706,37 @@ function millionFriend(){
   $('millionMessage').textContent='📞 Amigo: “'+confidence[Math.floor(Math.random()*confidence.length)]+' que é a opção '+String.fromCharCode(65+millionCorrect)+'.”';
 }
 
+function normalHistoryLoad(){try{let a=JSON.parse(localStorage.getItem(NORMAL_HISTORY_KEY)||'[]');return Array.isArray(a)?a.map(Number).filter(Number.isFinite):[]}catch(e){return []}}
+function normalHistorySave(a){try{localStorage.setItem(NORMAL_HISTORY_KEY,JSON.stringify(a.slice(-1000)))}catch(e){}}
+function normalSongKey(s){return Number(s&&s.n)||0}
+function normalPickFreshSong(){
+  let available=songs.filter(s=>s.title&&s.artist&&s.year&&spotifyId(s));
+  if(!available.length)return null;
+  let history=normalHistoryLoad(),used=new Set(history);
+  let fresh=available.filter(s=>!normalSessionUsed.has(normalSongKey(s))&&!used.has(normalSongKey(s)));
+  if(!fresh.length){history=[];normalHistorySave([]);fresh=available.filter(s=>!normalSessionUsed.has(normalSongKey(s)))}
+  if(!fresh.length){normalSessionUsed=new Set();fresh=available}
+  let song=fresh[Math.floor(Math.random()*fresh.length)],k=normalSongKey(song);
+  if(k){normalSessionUsed.add(k);history.push(k);normalHistorySave(history)}
+  return song;
+}
+async function normalRandomRound(){
+  await enableMotion();
+  let song=normalPickFreshSong();
+  if(!song){alert('As músicas ainda estão a carregar. Tenta novamente dentro de um instante.');return}
+  load(String(song.n));
+  $('cardno').textContent='MÚSICA ALEATÓRIA';
+  $('motionNote').textContent=motionReady?'Sensor ativo — vira o ecrã para baixo.':'Sensor pronto — vira o ecrã para baixo.';
+}
+function showNormalChoice(){
+  $('modeView').classList.add('hidden');
+  $('normalChoiceView').classList.remove('hidden');
+}
 function chooseMode(m){
   gameMode=m;
   const homeBtn=$('homeMenuBtn');
   if(homeBtn)homeBtn.style.display='block';
-  if(m==='festival'){festivalSetup();return}if(m==='millionaire'){startMillionaire();return}if(m==='quiz'){startQuiz();return}$('modeView').classList.add('hidden');$('scanView').classList.remove('hidden');$('status').textContent=m==='normal'?'Modo Normal — aponta a câmara ao QR':'Modo Expert — aponta a câmara ao QR'}
+  if(m==='festival'){festivalSetup();return}if(m==='millionaire'){startMillionaire();return}if(m==='quiz'){startQuiz();return}if(m==='normal'){showNormalChoice();return}$('modeView').classList.add('hidden');$('scanView').classList.remove('hidden');$('status').textContent='Modo Expert — aponta a câmara ao QR'}
 function load(raw){
   // Limpar imediatamente a resposta anterior. A carta atual só é escrita ao revelar.
   $('title').textContent='••••••••';
@@ -828,6 +870,8 @@ function showSpotifyFallback(id){
 async function start(){try{await enableMotion();if(!('BarcodeDetector'in window)){$('status').textContent='Este browser não suporta leitura automática. Usa o campo de código abaixo.';return}detector=new BarcodeDetector({formats:['qr_code']});stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}}});$('video').srcObject=stream;await $('video').play();scanning=true;$('start').classList.add('hidden');$('status').textContent='À procura do QR…';tick()}catch(e){$('status').textContent='Não foi possível usar a câmara. Podes introduzir o código manualmente.'}}
 async function tick(){if(!scanning)return;try{let codes=await detector.detect($('video'));if(codes.length&&codes[0].rawValue!==last){last=codes[0].rawValue;load(last);return}}catch(e){}requestAnimationFrame(tick)}
 function stop(){scanning=false;if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}$('video').srcObject=null}
+$('normalWithCards').onclick=()=>{normalPlayMode='cards';normalSessionUsed=new Set();$('normalChoiceView').classList.add('hidden');$('scanView').classList.remove('hidden');$('status').textContent='Modo Normal — aponta a câmara ao QR';$('start').classList.remove('hidden');start()};
+$('normalWithoutCards').onclick=()=>{normalPlayMode='random';normalSessionUsed=new Set();$('normalChoiceView').classList.add('hidden');normalRandomRound()};
 document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>chooseMode(b.dataset.mode));$('million5050').onclick=million5050;$('millionAudience').onclick=millionAudience;$('millionFriend').onclick=millionFriend;$('millionVictoryRestart').onclick=function(){$('millionVictory').style.display='none';$('millionConfetti').innerHTML='';startMillionaire();};$('millionVictoryMenu').onclick=function(){$('millionVictory').style.display='none';$('millionConfetti').innerHTML='';goHomeMenu(true);};$('start').onclick=start;$('go').onclick=async()=>{await enableMotion();load($('manual').value)};$('manual').onkeydown=async e=>{if(e.key==='Enter'){await enableMotion();load(e.target.value)}};$('flipView').onclick=async()=>{let ok=await enableMotion();$('motionNote').textContent=ok?'Sensor ativo — vira o ecrã para baixo.':'Sensor de movimento indisponível.'};$('revealBtn').onclick=()=>{
   if(!current)return;
   $('title').textContent=current.title||current.name||'—';
@@ -856,6 +900,7 @@ document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>chooseMode(b.d
   $('spotifybox').innerHTML='';$('gameView').classList.add('hidden');$('scanView').classList.add('hidden');
   $('start').classList.remove('hidden');$('manual').value='';
   if(gameMode==='festival')prepareFestivalTurn();
+  else if(gameMode==='normal'&&normalPlayMode==='random'){normalRandomRound()}
   else{$('scanView').classList.remove('hidden');$('status').textContent='Aponta a câmara ao QR HIT ROCK';start()}
 };
 
@@ -873,10 +918,11 @@ function goHomeMenu(confirmed){
   }catch(e){}
 
   current=null;
+  normalPlayMode='cards';normalSessionUsed=new Set();
   if(typeof setGameInProgress==='function')setGameInProgress(false);
 
   // Hide all content left from the previous selection/game.
-  ['scanView','gameView','flipView','playingView','festivalIntro','festivalBoard','festivalSetup','challenge','festActions','millionView','quizView'].forEach(id=>{
+  ['scanView','gameView','flipView','playingView','festivalIntro','festivalBoard','festivalSetup','challenge','festActions','millionView','quizView','normalChoiceView'].forEach(id=>{
     const el=$(id);
     if(el)el.classList.add('hidden');
   });
@@ -952,7 +998,7 @@ if($('homeMenuBtn')){
 
 
 const HITROCK_RULES={
-normal:{title:'🎵 MODO NORMAL — Como jogar',html:'<p><strong>Objetivo:</strong> ouvir a música e responder ao desafio apresentado.</p><p>1. Lê o QR da carta.<br>2. Vira o telemóvel com o ecrã para baixo para iniciar a música.<br>3. Dá a tua resposta.<br>4. Carrega em <strong>Revelar resposta</strong> para confirmar.</p>'},
+normal:{title:'🎵 MODO NORMAL — Como jogar',html:'<p><strong>Objetivo:</strong> ouvir a música e tentar descobrir o título, artista e ano.</p><p>Escolhe <strong>COM CARTAS</strong> para ler o QR, ou <strong>SEM CARTAS</strong> para a app escolher uma música automaticamente sem repetir. Depois vira o telemóvel com o ecrã para baixo para iniciar a música e carrega em <strong>Revelar resposta</strong> para confirmar.</p>'},
 expert:{title:'🔥 MODO EXPERT — Como jogar',html:'<p><strong>Objetivo:</strong> responder ao desafio sorteado para cada música.</p><p>O EXPERT reúne os desafios da antiga Roleta e do Expert: <strong>Década, ±4 anos, ±3 anos, ±2 anos, Banda ou Solo, Ano exato, Artista e Música</strong>.</p><p>Lê o QR, vê o desafio sorteado, vira o telemóvel para baixo, ouve a música e responde antes de carregares em <strong>Revelar resposta</strong>.</p>'},
 millionaire:{title:'🥾🔥 MILIONÁRIO — Como jogar',html:'<p><strong>Objetivo:</strong> jogar sozinho e chegar a <strong>1.000.000 de fãs</strong> sem falhar.</p><p>A app escolhe a música aleatoriamente e apresenta perguntas inspiradas nos desafios do Expert. Cada pergunta tem <strong>4 opções</strong> e apenas uma está correta.</p><p><strong>Acertaste:</strong> ganhas fãs e sobes para a pergunta seguinte.<br><strong>Erraste:</strong> 💀 a partida termina e tens de começar novamente do zero.</p><p>Tens três ajudas, uma vez por partida: <strong>50/50</strong>, <strong>👥 Público</strong> e <strong>📞 Amigo</strong>.</p>'},
 festival:{title:'🎪 MODO FESTIVAL — Como jogar',html:'<p><strong>Objetivo:</strong> conquistar fãs e subir na classificação.</p><p>Jogam até 8 jogadores. Em cada turno aparece quem joga, a fase e o objetivo. Lê a carta, vira o telemóvel para baixo e responde.</p><p>Depois de revelar, marca <strong>ACERTOU</strong> ou <strong>FALHOU</strong>. Ao acertar ganhas fãs; ao falhar manténs os fãs atuais. O botão 🏆 mostra a classificação por ordem de fãs.</p>'},
